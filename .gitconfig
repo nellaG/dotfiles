@@ -1,0 +1,20 @@
+[user]
+	email = seirios0107@gmail.com
+	name = nellag
+[core]
+  editor = vim
+  excludesfile = ./.gitignore
+[color]
+  ui = auto
+[merge]
+  tool = p4merge
+[mergetool]
+  prompt = false
+[diff]
+  tool = p4merge
+[difftool]
+  prompt = false
+[push]
+  default = simple
+[http]
+  sslVerify = true
