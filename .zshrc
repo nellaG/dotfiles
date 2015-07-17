@@ -47,7 +47,7 @@ ZSH_THEME="mh"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-source $ZSH/oh-my-zsh.sh
+#source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -78,7 +78,8 @@ export PATH="$PATH:$HOME/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-#
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
 #
 # #NOTE(gallen): I cannot sure whether it should be here or .bashrc...
 # but I wrote here because my default shell is zshell...
