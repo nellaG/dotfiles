@@ -89,6 +89,8 @@ export PIP_REQUIRE_VIRTUALENV=true
 # cache pip-installed packages to avlid re-downloading
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
 
-
+# NOTE(gallen): change prompt color of zsh version.
+autoload -U colors && colors
+PS1="%{$fg[yellow]%}%n%{$reset_color%}@%{$fg[cyan]%}%m %{$fg[red]%}%~ %{$reset_color%}%{$ % "
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
