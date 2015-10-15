@@ -38,8 +38,6 @@ try
 catch
 endtry
 
-filetype on
-filetype plugin on
 filetype plugin indent on
 
 nnoremap <Leader>m :w <BAR> !lessc % > %:t:r.css<CR><space>
