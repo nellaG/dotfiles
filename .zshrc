@@ -5,7 +5,7 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="mh"
+ZSH_THEME="pygmalion"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -47,7 +47,7 @@ ZSH_THEME="mh"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-#source $ZSH/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -89,9 +89,5 @@ export PIP_REQUIRE_VIRTUALENV=true
 
 # cache pip-installed packages to avlid re-downloading
 export PIP_DOWNLOAD_CACHE=$HOME/.pip/cache
-
-# NOTE(gallen): change prompt color of zsh version.
-autoload -U colors && colors
-PS1="%{$fg[yellow]%}%n%{$reset_color%}@%{$fg[cyan]%}%m %{$fg[red]%}%~ %{$reset_color%}%{$ % "
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
