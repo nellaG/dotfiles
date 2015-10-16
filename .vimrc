@@ -5,7 +5,7 @@ set autoindent
 set tabstop=2
 set expandtab
 autocmd FileType python set cc=80
-colo peachpuff
+colo lucius
 set background=dark
 set statusline+=%F
 set laststatus=2
@@ -126,6 +126,5 @@ endif
 endfunction
 
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-colo peachpuff
 highlight ExtraWhitespace ctermbg=255 guibg=255
 highlight SpellBad term=reverse ctermbg=118 ctermfg=016
