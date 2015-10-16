@@ -30,6 +30,14 @@ let g:html_indent_tags = 'p\|li\|nav'
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=235
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=239
 autocmd BufNewFile,BufRead *.html.erb set filetype=html
+autocmd BufNewFile,BufRead *.rs set filetype=rust
+autocmd FileType rust
+      \ set tabstop=2 |
+      \ set shiftwidth=2 |
+      \ set softtabstop=2 |
+      \ set cc=99 |
+      \ colo lucius |
+      \ set bg=dark
 
 syntax on
 try
@@ -38,7 +46,37 @@ try
 catch
 endtry
 
+
+" for Vundle
+filetype off
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin from http://vim-scripts.org/vim/scripts.html
+Plugin 'L9'
+" Git plugin not hosted on GitHub
+Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Rust syntax hilighter
+Plugin 'rust-lang/rust.vim'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+
 filetype plugin indent on
+
 
 nnoremap <Leader>m :w <BAR> !lessc % > %:t:r.css<CR><space>
 
