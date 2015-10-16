@@ -81,9 +81,6 @@ export PATH="$PATH:$HOME/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 #
-# #NOTE(gallen): I cannot sure whether it should be here or .bashrc...
-# but I wrote here because my default shell is zshell...
-#
 # pip should only run if there is a virtualenv currently activated
 export PIP_REQUIRE_VIRTUALENV=true
 
