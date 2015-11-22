@@ -78,7 +78,7 @@ export PATH="$PATH:$HOME/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias ls='ls -G'
+alias ls='ls -G --color'
 alias grep='grep --color=auto'
 #
 # pip should only run if there is a virtualenv currently activated
