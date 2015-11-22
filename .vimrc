@@ -47,51 +47,26 @@ catch
 endtry
 
 
-" for Vundle
-filetype off
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
+
+" Plugins "
 call vundle#begin()
 
+Plugin 'bling/vim-airline'
 Plugin 'gmarik/Vundle.vim'
-
 Plugin 'L9'
-" The sparkup vim script is in a subdirectory of this repo called vim.
-" Pass the path to set the runtimepath properly.
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-" Rust syntax hilighter
 Plugin 'rust-lang/rust.vim'
+Plugin 'junegunn/limelight.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'tmux-plugins/vim-tmux'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
 
-filetype plugin indent on
+call vundle#end()
 
-
-nnoremap <Leader>m :w <BAR> !lessc % > %:t:r.css<CR><space>
-
-highlight ExtraWhitespace ctermbg=255 guibg=255
-augroup WhitespaceMatch
-  " Remove ALL autocommands for the WhitespaceMatch group.
-  autocmd!
-  autocmd BufWinEnter * let w:whitespace_match_number =
-        \ matchadd('ExtraWhitespace', '\s\+$')
-  autocmd InsertEnter * call s:ToggleWhitespaceMatch('i')
-  autocmd InsertLeave * call s:ToggleWhitespaceMatch('n')
-augroup END
-
-function! s:ToggleWhitespaceMatch(mode)
-  let pattern = (a:mode == 'i') ? '\s\+\%#\@<!$' : '\s\+$'
-  if exists('w:whitespace_match_number')
-    call matchdelete(w:whitespace_match_number)
-    call matchadd('ExtraWhitespace', pattern, 10, w:whitespace_match_number)
-  else
-    " Something went wrong, try to be graceful.
-    let w:whitespace_match_number =  matchadd('ExtraWhitespace', pattern)
-  endif
-endfunction
-
-au BufNewFile, BufRead *.less set filetype=css
 
 noremap <buffer> <silent> k gk
 noremap <buffer> <silent> j gj
