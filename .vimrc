@@ -59,10 +59,13 @@ Plugin 'L9'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'rust-lang/rust.vim'
 Plugin 'junegunn/limelight.vim'
+Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-sensible'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'tmux-plugins/vim-tmux'
+Plugin 'airblade/vim-gitgutter'
 
 
 call vundle#end()
