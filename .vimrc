@@ -40,12 +40,6 @@ autocmd FileType rust
       \ set bg=dark
 
 syntax on
-try
-  execute pathogen#infect()
-  filet plugin indent on
-catch
-endtry
-
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -75,8 +69,6 @@ noremap <buffer> <silent> k gk
 noremap <buffer> <silent> j gj
 noremap <buffer> <silent> O gO
 noremap <buffer> <silent> $ g$
-
-call pathogen#infect()
 
 hi Search ctermbg=33
 
