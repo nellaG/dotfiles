@@ -4,7 +4,11 @@ set nu
 set autoindent
 set expandtab
 autocmd FileType python set cc=80
-colo lucius
+try
+  colo lucius
+catch
+  colo slate
+endtry
 set background=dark
 set statusline+=%F
 set laststatus=2
