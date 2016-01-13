@@ -2,7 +2,6 @@ set nocompatible  " not compatible to vi
 set mouse=a
 set nu
 set autoindent
-set tabstop=2
 set expandtab
 autocmd FileType python set cc=80
 colo lucius
