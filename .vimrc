@@ -29,6 +29,18 @@ let g:indent_guides_guide_size = 1
 let g:indent_guides_auto_colors = 0
 let g:indent_guides_start_level = 2
 let g:html_indent_tags = 'p\|li\|nav'
+let g:syntastic_check_on_open = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_error_symbol = "✗"
+let g:syntastic_python_checkers = ['flake8', 'pylint', 'pep8', 'python']
+let g:syntastic_mode_map = {
+    \ "mode": "active",
+    \ "active_filetypes": ["python", "ruby"] }
+let b:syntastic_mode = "active"
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=235
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=239
@@ -63,6 +75,7 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'tmux-plugins/vim-tmux'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'scrooloose/syntastic'
 
 
 call vundle#end()
@@ -91,3 +104,6 @@ endfunction
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 highlight ExtraWhitespace ctermbg=255 guibg=255
 highlight SpellBad term=reverse ctermbg=118 ctermfg=016
+highlight SyntasticError ctermfg=255 ctermbg=124
+highlight SyntasticErrorLine ctermfg=255 ctermbg=203
+highlight SyntasticWarningLine ctermfg=255 ctermbg=220
