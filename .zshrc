@@ -19,7 +19,7 @@ export EDITOR='vim'
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-alias ls='ls -G --color'
+alias ls='ls -G'
 alias grep='grep --color=auto'
 
 if [ "$TMUX" = "" ]; then
