@@ -42,7 +42,7 @@ autocmd FileType rust
       \ colo lucius |
       \ set bg=dark
 
-syntax on
+syntax enable
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
