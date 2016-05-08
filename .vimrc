@@ -4,15 +4,12 @@ set nu
 set autoindent
 set expandtab
 autocmd FileType python set cc=80
-try
-  colo lucius
-catch
-  colo slate
-endtry
 set background=dark
 set statusline+=%F
+set smartcase
 set laststatus=2
 set t_co=256
+set t_ut=y
 set term=screen-256color
 set fileencoding=utf-8
 set ruler
@@ -23,7 +20,7 @@ set novb
 set ml
 set mls=3
 set fileformat=unix
-set ts=2 sw=2 et
+set ts=4 sw=4 et
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 let g:indent_guides_auto_colors = 0
@@ -44,16 +41,13 @@ set statusline+=%*
 
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=235
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=239
-autocmd BufNewFile,BufRead *.html.erb set filetype=html
-autocmd BufNewFile,BufRead *.rs set filetype=rust
-autocmd FileType rust
+autocmd Filetype html
       \ set tabstop=2 |
       \ set shiftwidth=2 |
       \ set softtabstop=2 |
-      \ set cc=99 |
-      \ colo lucius |
-      \ set bg=dark
-
+autocmd BufNewFile,BufRead *.html.erb set filetype=html
+autocmd BufNewFile,BufRead *.rs set filetype=rust
+autocmd BufNewFile,BufRead *.scss set filetype=css
 syntax enable
 
 " set the runtime path to include Vundle and initialize
@@ -76,7 +70,10 @@ Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'tmux-plugins/vim-tmux'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'scrooloose/syntastic'
-
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'pangloss/vim-javascript'
+Plugin 'Lokaltog/vim-distinguished'
+Plugin 'NLKNguyen/papercolor-theme'
 
 call vundle#end()
 
@@ -102,8 +99,9 @@ endif
 endfunction
 
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+colo nevid
 highlight ExtraWhitespace ctermbg=255 guibg=255
 highlight SpellBad term=reverse ctermbg=118 ctermfg=016
 highlight SyntasticError ctermfg=255 ctermbg=124
-highlight SyntasticErrorLine ctermfg=255 ctermbg=203
-highlight SyntasticWarningLine ctermfg=255 ctermbg=220
+highlight SyntasticErrorLine ctermfg=255 ctermbg=124
+highlight SyntasticWarningLine ctermfg=0 ctermbg=220
