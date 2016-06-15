@@ -74,6 +74,7 @@ noremap <buffer> <silent> k gk
 noremap <buffer> <silent> j gj
 noremap <buffer> <silent> O gO
 noremap <buffer> <silent> $ g$
+nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 
 hi Search ctermbg=33
 
