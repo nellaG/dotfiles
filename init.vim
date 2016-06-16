@@ -66,6 +66,7 @@ Plug 'scrooloose/syntastic'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'pangloss/vim-javascript'
 Plug 'Lokaltog/vim-distinguished'
+Plug 'ervandew/supertab'
 
 call plug#end()
 
@@ -78,20 +79,6 @@ nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 
 hi Search ctermbg=33
 
-function! InsertTabWrapper()
-let col = col('.') - 1
-if !col || getline('.')[col-1]!~'\k'
-  return "\<TAB>"
-else
-  if pumvisible()
-    return "\<C-N>"
-  else
-    return "\<C-N>\<C-P>"
-  end
-endif
-endfunction
-
-inoremap <tab> <c-r>=InsertTabWrapper()<cr
 set termguicolors
 colorscheme getafe
 highlight ExtraWhitespace ctermbg=255 guibg=255
