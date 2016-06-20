@@ -83,6 +83,8 @@ set termguicolors
 colorscheme getafe
 highlight ExtraWhitespace ctermbg=255 guibg=255
 highlight SpellBad term=reverse ctermbg=118 ctermfg=016
+highlight IndentGuidesEven guibg=darkslategray
+highlight IndentGuidesOdd guibg=lightslategray
 highlight SyntasticError ctermfg=255 ctermbg=124
 highlight SyntasticErrorLine ctermfg=255 ctermbg=124
 highlight SyntasticWarningLine ctermfg=0 ctermbg=220
