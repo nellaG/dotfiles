@@ -13,7 +13,7 @@ set nobackup
 set novb
 set fileformat=unix
 
-" show message in English 
+" show message in English
 set langmenu=en_US.UTF-8
 language messages en_US.UTF-8
 
@@ -31,10 +31,13 @@ let g:syntastic_mode_map = {
     \ "mode": "active",
     \ "active_filetypes": ["python", "ruby"] }
 let b:syntastic_mode = "active"
+"let g:airline_theme='luna'
+let g:airline_theme='neodark'
+let g:strip_whitespace_on_save = 1
 
 set statusline+=%F
 set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=235
@@ -46,18 +49,25 @@ autocmd Filetype html
 autocmd BufNewFile,BufRead *.html.erb set filetype=html
 autocmd BufNewFile,BufRead *.rs set filetype=rust
 autocmd BufNewFile,BufRead *.scss set filetype=css
+autocmd BufNewFile,BufRead *.sh set filetype=sh
+"autocmd Filetype rust
+"      \ colorscheme lucius |
+"      \ set bg=dark
+autocmd Filetype sh
+      \ set ts=2 |
+      \ set sw=2
 syntax enable
 
 " Plugins "
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plug 'rust-lang/rust.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-sensible'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'tmux-plugins/vim-tmux'
@@ -66,10 +76,15 @@ Plug 'scrooloose/syntastic'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'pangloss/vim-javascript'
 Plug 'Lokaltog/vim-distinguished'
-Plug 'ervandew/supertab'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'bcicen/vim-vice'
+Plug 'KeitaNakamura/neodark.vim'
+Plug 'rakr/vim-two-firewatch'
 
 call plug#end()
-
+let g:python_host_prog = '/usr/bin/python2.7'
+let g:python3_host_prog = '/Users/valerie/.virtualenvs/neovim3/bin/python'
+"call deoplete#enable()
 
 noremap <buffer> <silent> k gk
 noremap <buffer> <silent> j gj
@@ -79,12 +94,23 @@ nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 
 hi Search ctermbg=33
 
+"colorscheme Vivid
+"colorscheme kingsroad
+"colorscheme vice
+"colorscheme sierra
+"colo neodark
 set termguicolors
-colorscheme getafe
-highlight ExtraWhitespace ctermbg=255 guibg=255
-highlight SpellBad term=reverse ctermbg=118 ctermfg=016
+"colo hilal
+"colo material-theme
+colo nordisk
+"highlight search when nordisk
+highlight Search guibg=#FFFFFF
+
+"material-theme bg color
+"highlight Normal guibg=#263238
+highlight ExtraWhitespace ctermbg=255 guibg=#ffffff
+highlight SpellBad term=reverse ctermbg=118 ctermfg=016 guibg=#87ff00 guifg=#000000
 highlight IndentGuidesEven guibg=darkslategray
 highlight IndentGuidesOdd guibg=lightslategray
-highlight SyntasticError ctermfg=255 ctermbg=124
-highlight SyntasticErrorLine ctermfg=255 ctermbg=124
-highlight SyntasticWarningLine ctermfg=0 ctermbg=220
+highlight SyntasticError ctermfg=255 ctermbg=124 guifg=#eeeeee guibg=#af0000
+highlight SyntasticWarningLine ctermfg=0 ctermbg=220 guifg=#000000 guibg=#ffdf00
