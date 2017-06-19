@@ -16,7 +16,6 @@ set fileformat=unix
 " show message in English
 set langmenu=en_US.UTF-8
 language messages en_US.UTF-8
-
 set ts=4 sw=4 et
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
@@ -26,12 +25,11 @@ let g:html_indent_tags = 'p\|li\|nav'
 let g:syntastic_check_on_open = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_error_symbol = "✗"
-let g:syntastic_python_checkers = ['flake8', 'pylint', 'pep8', 'python']
+let g:syntastic_python_checkers = ['flake8', 'pep8', 'python']
 let g:syntastic_mode_map = {
     \ "mode": "active",
-    \ "active_filetypes": ["python", "ruby"] }
+    \ "active_filetypes": ["python"] }
 let b:syntastic_mode = "active"
-"let g:airline_theme='luna'
 let g:strip_whitespace_on_save = 1
 
 set statusline+=%F
@@ -53,47 +51,34 @@ autocmd BufNewFile,BufRead *.ex set filetype=elixir
 autocmd BufNewFile,BufRead *.exs set filetype=elixir
 autocmd BufNewFile,BufRead *.scss set filetype=css
 autocmd BufNewFile,BufRead *.sh set filetype=sh
-"autocmd Filetype rust
-"      \ colorscheme lucius |
-"      \ set bg=dark
 autocmd Filetype sh
       \ set ts=2 |
       \ set sw=2
 autocmd Filetype elixir
       \ set ts=2 |
-      \ set sw=2 |
-      \ colo gruvbox
+      \ set sw=2
 syntax enable
 
 " Plugins "
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plug 'rust-lang/rust.vim'
-Plug 'junegunn/limelight.vim'
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-fugitive'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'airblade/vim-gitgutter'
 Plug 'scrooloose/syntastic'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'pangloss/vim-javascript'
-Plug 'Lokaltog/vim-distinguished'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'bcicen/vim-vice'
-Plug 'rakr/vim-two-firewatch'
 Plug 'arcticicestudio/nord-vim'
 Plug 'slashmili/alchemist.vim'
 Plug 'elixir-lang/vim-elixir'
+Plug 'cespare/vim-toml'
+Plug 'peterhoeg/vim-qml'
 
 call plug#end()
-let g:python_host_prog = '/usr/bin/python2.7'
-let g:python3_host_prog = '/Users/valerie/.virtualenvs/neovim3/bin/python'
-"call deoplete#enable()
+"let g:python_host_prog = '/usr/bin/python2.7'
+"let g:python3_host_prog = '/Users/valerie/.virtualenvs/neovim3/bin/python'
 
 noremap <buffer> <silent> k gk
 noremap <buffer> <silent> j gj
@@ -103,19 +88,9 @@ nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 
 hi Search ctermbg=33
 
-"colorscheme Vivid
-"colorscheme kingsroad
-"colorscheme vice
-"colorscheme sierra
-"colo neodark
 set termguicolors
-"colo hilal
-"colo material-theme
 colo nord
-"colo iceberg
-"colo solarized
-"set bg=dark
-"highlight search when nordisk
+" highlight search when nordisk
 highlight Search guifg=#002833
 
 "material-theme bg color
