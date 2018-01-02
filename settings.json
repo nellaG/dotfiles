@@ -1,0 +1,37 @@
+// 설정을 이 파일에 넣어서 기본 설정을 덮어씁니다.
+{
+    "editor.fontFamily": "Bitstream Vera Sans Mono",
+
+    // 글꼴 크기를 제어합니다.
+    "editor.fontSize": 12,
+    "editor.rulers": [ 80, 120],
+    "files.encoding": "utf8",
+    "window.zoomLevel": 0,
+    "workbench.colorTheme": "Darktooth",
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "workbench.editor.enablePreview": false,
+    "workbench.colorCustomizations": {
+        "editorWarning.foreground": "#72F4D7",
+        "editorError.foreground": "#F47293"
+    },
+    "rust.mode": "rls",
+    "rust.rls": {
+        "executable": "/Users/valerie/.cargo/bin/rustup",
+        "args": [
+            "run",
+            "nightly",
+            "rls"
+        ],
+        "useRustfmt": false
+    },
+    "rust.rustfmtPath": "/Users/valerie/.cargo/bin/rustfmt",
+    "rust.rustup": {
+        "toolchain": "nightly-x86_64-apple-darwin"
+    },
+    "rust.rustLangSrcPath": "/Users/valerie/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src",
+    "rust.racerPath": "/Users/valerie/.cargo/bin/racer",
+    "rust.cargoPath": "/Users/valerie/.cargo/bin/cargo",
+    "rust.rustsymPath": "/Users/valerie/.cargo/bin/rustsym",
+    "typescript.check.npmIsInstalled": false,
+    "extensions.ignoreRecommendations": false
+}
