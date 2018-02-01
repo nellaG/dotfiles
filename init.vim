@@ -25,11 +25,15 @@ set swapfile
 " ale settings
 let g:ale_sign_column_always = 1
 let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#show_close_button = 0
+let g:ale_lint_on_insert_leave = 0
+let g:ale_lint_on_text_changed = 'normal'
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '☢'
 let g:ale_completion_delay = 50
 let g:ale_lint_delay = 100
-let g:ale_lint_on_insert_leave = 1
 let g:ale_virtualenv_dir_names = [$VIRTUAL_ENV]
 let g:ale_python_pylint_options = '--rcfile $HOME/.pylintrc'
 
@@ -103,11 +107,7 @@ Plug 'cespare/vim-toml'
 Plug 'peterhoeg/vim-qml'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimfiler.vim'
-Plug 'Quramy/tsuquyomi'
 Plug 'w0rp/ale'
-Plug 'leafgarland/typescript-vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'racer-rust/vim-racer'
 " colorscheme install
@@ -126,10 +126,20 @@ noremap <buffer> <silent> $ g$
 nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 
 " color settings
-colo peachpuff
+colo nord
 
 if $ITERM_PROFILE == "Nord"
+    set termguicolors
     colo nord
+elseif $ITERM_PROFILE == "Bluedrake"
+    set termguicolors
+    colo bluedrake
+    set bg=dark
+elseif $ITERM_PROFILE == "BladeRunner"
+    highlight ALEError ctermbg=203 ctermfg=255
+    highlight ALEErrorSign ctermfg=203
+    highlight ALEWarning ctermbg=32 ctermfg=255
+    highlight ALEWarningSign ctermfg=32
 endif
 
 highlight ALEError guibg=#F47293 guifg=#FFFFFF
