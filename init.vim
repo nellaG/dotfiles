@@ -23,7 +23,7 @@ set statusline+=%*
 set swapfile
 set cc=80
 " solution for slow tmux navigator
-set shell=/bin/bash\ -i
+set shell=sh
 
 " ale settings
 let g:ale_sign_column_always = 1
