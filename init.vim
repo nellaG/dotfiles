@@ -69,6 +69,8 @@ let g:nord_italic = 1
 let g:nord_italic_comments = 1
 let g:nord_underline = 1
 let g:nord_uniform_status_lines = 1
+let g:nord_cursor_line_number_background = 1
+
 
 " racer settings
 let g:racer_cmd = "/Users/valerie/.cargo/bin/racer"
@@ -172,8 +174,8 @@ nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bprevious<CR>
 
 
-set termguicolors
-colo nord
+"set termguicolors
+colo tabula
 highlight ALEError guibg=#F47293 guifg=#FFFFFF
 highlight ALEErrorSign guifg=#F47293 ctermfg=203
 highlight ALEWarning guibg=#72F4D7 guifg=#FFFFFF
@@ -182,7 +184,7 @@ highlight ExtraWhitespace ctermbg=255 guibg=#ffffff
 highlight IndentGuidesEven guibg=#5c7080 ctermbg=2
 highlight IndentGuidesOdd guibg=#4c6070 ctermbg=4
 highlight LineNr guibg=NONE ctermbg=NONE
-"highlight Normal guibg=NONE ctermbg=NONE
+highlight Normal guibg=NONE ctermbg=NONE
 highlight SpellBad term=reverse ctermbg=118 ctermfg=016 guibg=#87ff00 guifg=#000000
 highlight clear SignColumn
 highlight SignColumn guibg=NONE ctermbg=NONE
