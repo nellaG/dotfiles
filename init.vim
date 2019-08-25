@@ -16,7 +16,7 @@ set nobackup
 set novb
 set ruler
 set smartcase
-set ts=4 sw=4 et
+set ts=2 sw=2 et
 set statusline+=%F
 set statusline+=%#warningmsg#
 set statusline+=%*
@@ -29,7 +29,7 @@ set shell=sh " this resolves slow loading time of fish....why?
 " IMPORTANT: :help Ncm2PopupOpen for more information
 set completeopt=noinsert,menuone,noselect
 
-let g:ncm2_jedi#environment = '$VIRTUAL_ENV/bin/python'
+let g:ncm2_jedi#environment = '/usr'
 
 " alrline settings
 let g:airline#extensions#ale#enabled = 1
@@ -78,7 +78,7 @@ let g:racer_experimental_completer = 1
 
 
 let g:html_indent_tags = 'p\|li\|nav'
-let g:python3_host_prog = '/usr/local/opt/python3/bin/python3.7'
+let g:python3_host_prog = '/usr/local/bin/python3'
 let g:strip_whitespace_on_save = 1
 let g:airline_theme = 'term'
 
@@ -153,13 +153,14 @@ Plug 'HerringtonDarkholme/yats.vim'
 " install ncm2 completion sources
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
-Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
+"Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
 Plug 'ncm2/ncm2-jedi'
 Plug 'ncm2/ncm2-racer'
 
 " colorscheme install
 Plug 'arcticicestudio/nord-vim'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'trevordmiller/nova-vim'
 let g:airline_theme = 'nord'
 
 call plug#end()
@@ -173,9 +174,8 @@ nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bprevious<CR>
 
-
-"set termguicolors
-colo tabula
+set termguicolors
+colo nord
 highlight ALEError guibg=#F47293 guifg=#FFFFFF
 highlight ALEErrorSign guifg=#F47293 ctermfg=203
 highlight ALEWarning guibg=#72F4D7 guifg=#FFFFFF
@@ -184,7 +184,7 @@ highlight ExtraWhitespace ctermbg=255 guibg=#ffffff
 highlight IndentGuidesEven guibg=#5c7080 ctermbg=2
 highlight IndentGuidesOdd guibg=#4c6070 ctermbg=4
 highlight LineNr guibg=NONE ctermbg=NONE
-highlight Normal guibg=NONE ctermbg=NONE
+"highlight Normal guibg=NONE ctermbg=NONE
 highlight SpellBad term=reverse ctermbg=118 ctermfg=016 guibg=#87ff00 guifg=#000000
 highlight clear SignColumn
 highlight SignColumn guibg=NONE ctermbg=NONE
