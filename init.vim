@@ -29,7 +29,7 @@ set shell=sh " this resolves slow loading time of fish....why?
 " IMPORTANT: :help Ncm2PopupOpen for more information
 set completeopt=noinsert,menuone,noselect
 
-let g:ncm2_jedi#environment = '/usr'
+"let g:ncm2_jedi#environment = '/usr'
 
 " alrline settings
 let g:airline#extensions#ale#enabled = 1
@@ -44,6 +44,7 @@ let g:ale_history_enabled = 0
 let g:ale_change_sign_column_color = 0
 let g:ale_sign_error = '✘'
 let g:ale_sign_warning = '☢'
+let g:ale_python_mypy_executable = 'mypy'
 let g:ale_completion_delay = 50
 let g:ale_lint_delay = 100
 let g:ale_virtualenv_dir_names = [$VIRTUAL_ENV]
@@ -92,7 +93,7 @@ autocmd BufNewFile,BufRead *.scss set filetype=css
 autocmd BufNewFile,BufRead *.sh set filetype=sh
 autocmd BufNewFile,BufRead *.yml set filetype=yaml
 "enable ncm2 for all buffers
-autocmd BufEnter * call ncm2#enable_for_buffer()
+"autocmd BufEnter * call ncm2#enable_for_buffer()
 
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=2
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=4
@@ -147,20 +148,41 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'derekwyatt/vim-scala'
 Plug 'sheerun/vim-polyglot'
 Plug 'plasticboy/vim-markdown'
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-Plug 'HerringtonDarkholme/yats.vim'
+"Plug 'ncm2/ncm2'
+"Plug 'roxma/nvim-yarp'
+"Plug 'HerringtonDarkholme/yats.vim'
 " install ncm2 completion sources
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
+"Plug 'ncm2/ncm2-bufword'
+"Plug 'ncm2/ncm2-path'
 "Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
-Plug 'ncm2/ncm2-jedi'
-Plug 'ncm2/ncm2-racer'
+"Plug 'ncm2/ncm2-jedi'
+"Plug 'ncm2/ncm2-racer'
+
+"autocompletion plugin
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+
+if executable('pyls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'pyls',
+        \ 'cmd': {server_info->['pyls']},
+        \ 'whitelist': ['python'],
+        \ })
+endif
+if executable('rls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'rls',
+        \ 'cmd': {server_info->['rustup', 'run', 'stable', 'rls']},
+        \ 'workspace_config': {'rust': {'clippy_preference': 'on'}},
+        \ 'whitelist': ['rust'],
+        \ })
+endif
+
 
 " colorscheme install
 Plug 'arcticicestudio/nord-vim'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'trevordmiller/nova-vim'
+
 let g:airline_theme = 'nord'
 
 call plug#end()
