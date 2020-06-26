@@ -2,7 +2,7 @@
 set -gx OMF_PATH "/Users/$USER/.local/share/omf"
 
 # Customize Oh My Fish configuration path.
-#set -gx OMF_CONFIG "/Users/valerie/.config/omf"
+#set -gx OMF_CONFIG "/Users/gallen/.config/omf"
 
 # Load oh-my-fish configuration.
 source $OMF_PATH/init.fish

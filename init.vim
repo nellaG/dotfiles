@@ -22,6 +22,7 @@ set statusline+=%#warningmsg#
 set statusline+=%*
 set swapfile
 set cc=80,120
+set updatetime=200  " for gitgutter
 " solution for slow tmux navigator
 "set shell=/bin/bash\ -i
 set shell=sh " this resolves slow loading time of fish....why?
@@ -55,6 +56,7 @@ let g:gitgutter_override_sign_column_highlight = 0
 let g:gitgutter_sign_added              = '✚'
 let g:gitgutter_sign_modified           = '~'
 let g:gitgutter_sign_removed            = '_'
+let g:gitgutter_sign_removed            = '_'
 
 " indent_guides settings
 let g:indent_guides_enable_on_vim_startup = 1
@@ -74,7 +76,7 @@ let g:nord_cursor_line_number_background = 1
 
 
 " racer settings
-let g:racer_cmd = "/Users/valerie/.cargo/bin/racer"
+let g:racer_cmd = "/Users/gallen/.cargo/bin/racer"
 let g:racer_experimental_completer = 1
 
 
@@ -125,7 +127,6 @@ autocmd Filetype yaml
       \ set sw=2
 
 syntax enable
-
 " Plugins "
 call plug#begin('~/.config/nvim/plugged')
 
@@ -134,7 +135,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'racer-rust/vim-racer'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'cespare/vim-toml'
 Plug 'peterhoeg/vim-qml'
@@ -148,15 +149,12 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'derekwyatt/vim-scala'
 Plug 'sheerun/vim-polyglot'
 Plug 'plasticboy/vim-markdown'
-"Plug 'ncm2/ncm2'
-"Plug 'roxma/nvim-yarp'
-"Plug 'HerringtonDarkholme/yats.vim'
-" install ncm2 completion sources
-"Plug 'ncm2/ncm2-bufword'
-"Plug 'ncm2/ncm2-path'
-"Plug 'mhartington/nvim-typescript', { 'do': './install.sh' }
-"Plug 'ncm2/ncm2-jedi'
-"Plug 'ncm2/ncm2-racer'
+Plug 'junegunn/rainbow_parentheses.vim'
+let g:rainbow#pairs = [['(', ')'], ['[', ']']]
+augroup rainbow_lisp
+  autocmd!
+  autocmd FileType python,rust,sh,fish,vim RainbowParentheses
+augroup END
 
 "autocompletion plugin
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
@@ -197,7 +195,7 @@ nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bprevious<CR>
 
 set termguicolors
-colo nord
+colo nova
 highlight ALEError guibg=#F47293 guifg=#FFFFFF
 highlight ALEErrorSign guifg=#F47293 ctermfg=203
 highlight ALEWarning guibg=#72F4D7 guifg=#FFFFFF
