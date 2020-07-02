@@ -194,8 +194,13 @@ nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bprevious<CR>
 
-set termguicolors
-colo nova
+if $TERM_PROGRAM == "iTerm.app"
+  set termguicolors
+  colo nova
+else
+  colo nord
+endif
+
 highlight ALEError guibg=#F47293 guifg=#FFFFFF
 highlight ALEErrorSign guifg=#F47293 ctermfg=203
 highlight ALEWarning guibg=#72F4D7 guifg=#FFFFFF
