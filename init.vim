@@ -33,23 +33,9 @@ set completeopt=noinsert,menuone,noselect
 "let g:ncm2_jedi#environment = '/usr'
 
 " alrline settings
-let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#show_close_button = 0
-
-" ale settings
-let g:ale_sign_column_always = 1
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_history_enabled = 0
-let g:ale_change_sign_column_color = 0
-let g:ale_sign_error = '✘'
-let g:ale_sign_warning = '☢'
-let g:ale_python_mypy_executable = 'mypy'
-let g:ale_completion_delay = 50
-let g:ale_lint_delay = 100
-let g:ale_virtualenv_dir_names = [$VIRTUAL_ENV]
-let g:ale_python_pylint_options = '--rcfile $HOME/.pylintrc'
 
 " gitgutter settings
 let g:gitgutter_override_sign_column_highlight = 0
@@ -135,7 +121,6 @@ Plug 'rust-lang/rust.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'racer-rust/vim-racer'
-Plug 'dense-analysis/ale'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'cespare/vim-toml'
 Plug 'peterhoeg/vim-qml'
@@ -157,7 +142,7 @@ augroup rainbow_lisp
 augroup END
 
 "autocompletion plugin
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': './install.sh'}
 
 if executable('pyls')
     au User lsp_setup call lsp#register_server({
@@ -194,12 +179,13 @@ nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bprevious<CR>
 
-if $TERM_PROGRAM == "iTerm.app"
-  set termguicolors
-  colo nova
-else
-  colo nord
-endif
+"if $TERM_PROGRAM == "iTerm.app"
+"  set termguicolors
+"  colo nord
+"else
+"  colo nord
+"endif
+colo nord
 
 highlight ALEError guibg=#F47293 guifg=#FFFFFF
 highlight ALEErrorSign guifg=#F47293 ctermfg=203
