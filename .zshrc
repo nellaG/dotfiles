@@ -81,6 +81,7 @@ source $ZSH/oh-my-zsh.sh  # this should be after prompt theme
 # User configuration
 alias vi=nvim
 alias ag="git grep"
+
 export ZPLUG_HOME=/usr/local/opt/zplug
 source $ZPLUG_HOME/init.zsh
 plugins=(
@@ -89,27 +90,10 @@ plugins=(
 )
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#c6faef,bold"
 eval "$(pipenv --completion)"
+PIPENV_VERBOSITY=-1
+PIPENV_IGNORE_VIRTUALENVS=1
+GOPATH=$HOME
 
-
-export ALIEN_SECTIONS_LEFT=(
-  exit
-  battery
-  user
-  path
-  newline
-  ssh
-  venv
-  prompt
-)
-
-export ALIEN_SECTIONS_RIGHT=(
-  time
-)
-
-export ALIEN_SECTION_TIME_FORMAT=%H:%M:%S
-
-export ALIEN_THEME="green"
-zplug "eendroroy/alien"
 
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -141,5 +125,17 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=79 # gallen 76
+typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=87
+typeset -g POWERLEVEL9K_DIR_FOREGROUND=81 # gallen31
+
 
 source $ZSH/oh-my-zsh.sh  # this should be after prompt theme
+
+# to override ls command
+alias ls="exa -alh"
+alias cat="bat --theme=Nord"
+alias goot='cd $(eval "git root")'
+alias python='python3'
+
+source <(cortex completion zsh)
