@@ -37,12 +37,17 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#show_close_button = 0
 
+
 " gitgutter settings
 let g:gitgutter_override_sign_column_highlight = 0
 let g:gitgutter_sign_added              = '✚'
 let g:gitgutter_sign_modified           = '~'
 let g:gitgutter_sign_removed            = '_'
 let g:gitgutter_sign_removed            = '_'
+
+" vim-go settings
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
 
 " indent_guides settings
 let g:indent_guides_enable_on_vim_startup = 1
@@ -67,8 +72,15 @@ let g:racer_experimental_completer = 1
 
 
 let g:html_indent_tags = 'p\|li\|nav'
-let g:python3_host_prog = '/usr/local/bin/python3'
+" Figure out the system Python for Neovim.
+if exists("$VIRTUAL_ENV")
+    let g:python3_host_prog=substitute(system("which -a python | head -n1"), "\n", '', 'g')
+else
+    let g:python3_host_prog=substitute(system("which python"), "\n", '', 'g')
+endif
+
 let g:strip_whitespace_on_save = 1
+let g:better_whitespace_enabled=1
 let g:airline_theme = 'term'
 
 " autocmd settings
@@ -80,6 +92,7 @@ autocmd BufNewFile,BufRead *.exs set filetype=elixir
 autocmd BufNewFile,BufRead *.scss set filetype=css
 autocmd BufNewFile,BufRead *.sh set filetype=sh
 autocmd BufNewFile,BufRead *.yml set filetype=yaml
+autocmd BufNewFile,BufRead *.txt set filetype=txt
 "enable ncm2 for all buffers
 "autocmd BufEnter * call ncm2#enable_for_buffer()
 
@@ -94,7 +107,8 @@ autocmd Filetype html
       \ set softtabstop=2 |
 autocmd Filetype js
       \ colo material-theme |
-autocmd FileType python set cc=80
+autocmd FileType python set cc=120
+autocmd FileType txt set cc=105
 autocmd FileType markdown set cc=120
 
 " vim-racer settings
@@ -134,6 +148,8 @@ Plug 'elixir-lang/vim-elixir'
 Plug 'derekwyatt/vim-scala'
 Plug 'sheerun/vim-polyglot'
 Plug 'plasticboy/vim-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/rainbow_parentheses.vim'
 let g:rainbow#pairs = [['(', ')'], ['[', ']']]
 augroup rainbow_lisp
@@ -144,13 +160,6 @@ augroup END
 "autocompletion plugin
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': './install.sh'}
 
-if executable('pyls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ })
-endif
 if executable('rls')
     au User lsp_setup call lsp#register_server({
         \ 'name': 'rls',
@@ -179,18 +188,10 @@ nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bprevious<CR>
 
-"if $TERM_PROGRAM == "iTerm.app"
-"  set termguicolors
-"  colo nord
-"else
-"  colo nord
-"endif
 colo nord
 
-highlight ALEError guibg=#F47293 guifg=#FFFFFF
-highlight ALEErrorSign guifg=#F47293 ctermfg=203
-highlight ALEWarning guibg=#72F4D7 guifg=#FFFFFF
-highlight ALEWarningSign guifg=#72F4D7
+highlight CocErrorSign guifg=#F47293 ctermfg=203
+highlight CocWarningSign guifg=#72F4D7 ctermfg=50
 highlight ExtraWhitespace ctermbg=255 guibg=#ffffff
 highlight IndentGuidesEven guibg=#5c7080 ctermbg=2
 highlight IndentGuidesOdd guibg=#4c6070 ctermbg=4
