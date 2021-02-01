@@ -89,10 +89,8 @@ plugins=(
   zsh-autosuggestions
 )
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#c6faef,bold"
-eval "$(pipenv --completion)"
-PIPENV_VERBOSITY=-1
-PIPENV_IGNORE_VIRTUALENVS=1
-GOPATH=$HOME
+GOPATH=$HOME/go/bin
+export PATH=$GOPATH:$PATH
 
 
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
@@ -134,8 +132,11 @@ source $ZSH/oh-my-zsh.sh  # this should be after prompt theme
 
 # to override ls command
 alias ls="exa -alh"
-alias cat="bat --theme=Nord"
+alias cat="bat --theme=Dracula"
 alias goot='cd $(eval "git root")'
-alias python='python3'
-
+export WORKON_HOME=$HOME/venvwrappers
+export KUBE_EDITOR=nvim
+export BAT_PAGER='less -RFS'
+source /usr/local/bin/virtualenvwrapper.sh
+. /usr/local/etc/profile.d/z.sh
 source <(cortex completion zsh)
