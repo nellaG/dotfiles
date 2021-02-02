@@ -127,3 +127,7 @@ sudo update-alternatives --install /usr/bin/pip pip /home/gallen/.local/bin/pip 
 
 # install virtualenvwrapper
 sudo pip install virtualenvwrapper
+
+
+# install awscli
+sudo apt install awscli

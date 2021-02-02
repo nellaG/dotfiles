@@ -4,7 +4,7 @@
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "☢",
   "python.analysis.logLevel": ["Error", "Warning"],
-  "python.venvFolders": ["envs",".pyenv",".direnv", ".virtualenvs"],
+  "python.venvFolders": ["envs",".pyenv","venvwrappers", ".virtualenvs"],
   "python.linting.pylintArgs": [
     "--generated-members=numpy.* ,torch.* ,cv2.* , cv.*"
   ]
