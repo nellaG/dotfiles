@@ -188,6 +188,7 @@ nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bprevious<CR>
 
+"set termguicolors
 colo nord
 
 highlight CocErrorSign guifg=#F47293 ctermfg=203

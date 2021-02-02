@@ -3,9 +3,23 @@
   "diagnostic.checkCurrentLine": true,
   "diagnostic.errorSign": "✘",
   "diagnostic.warningSign": "☢",
+  "diagnostic.infoSign": "ℹ",
+  "diagnostic.hintSign": "➤",
+  "python.jediEnabled": false,
   "python.analysis.logLevel": ["Error", "Warning"],
-  "python.venvFolders": ["envs",".pyenv","venvwrappers", ".virtualenvs"],
+  "python.venvFolders": ["venvwrappers", ".virtualenvs"],
+  "python.linting.flake8Enabled": true,
   "python.linting.pylintArgs": [
     "--generated-members=numpy.* ,torch.* ,cv2.* , cv.*"
-  ]
+  ],
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "usePlaceholders": true
+      }
+    }
+  }
 }

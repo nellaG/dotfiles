@@ -5,18 +5,18 @@
 
 # install neovim
 # if ubuntu is older than 18.04: download release
-# wget https://github.com/neovim/neovim/releases/download/v0.4.4/nvim.appimage
-#chmod u+x nvim.appimage && ./nvim.appimage
-#mv nvim.appimage /usr/bin/nvim
+wget https://github.com/neovim/neovim/releases/download/v0.4.4/nvim.appimage
+chmod u+x nvim.appimage && ./nvim.appimage
+sudo mv nvim.appimage /usr/bin/nvim
 #sudo apt-get install python-software-properties
 #sudo add-apt-repository ppa:neovim-ppa/stable
 #sudo apt-get update
 
 # clone dotfile
-#git clone git@github.com:nellaG/dotfiles.git
+git clone git@github.com:nellaG/dotfiles.git
 
 # install screenfetch
-#sudo apt install screenfetch
+sudo apt install screenfetch
 
 # install exa
 wget https://github.com/ogham/exa/releases/download/v0.9.0/exa-linux-x86_64-0.9.0.zip
@@ -40,17 +40,17 @@ sudo dpkg -i vivid_0.6.0_amd64.deb
 
 
 # neovim configuration
-#mkdir -p .config/nvim
-#cp dotfiles/init.vim .config/nvim/init.vim
+mkdir -p .config/nvim
+cp dotfiles/init.vim .config/nvim/init.vim
 
 # install vim-plug
-#sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-#       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 # install vimplug packages
-#nvim -c "PlugInstall" -c wq
+nvim -c "PlugInstall" -c wq
 
-# cp coc-settings.json to ~/.config/nvim
+cp coc-settings.json to ~/.config/nvim
 cp dotfiles/coc-settings.json ~/.config/nvim/
 
 
@@ -71,12 +71,6 @@ fc-list | grep Hack
 
 # install zplug
 #curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-
-# install zsh
-sudo apt install zsh
-
-#install ohmyzsh
-sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # install p10k zsh theme
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
@@ -131,3 +125,9 @@ sudo pip install virtualenvwrapper
 
 # install awscli
 sudo apt install awscli
+
+# install zsh
+sudo apt install zsh
+
+#install ohmyzsh
+sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"

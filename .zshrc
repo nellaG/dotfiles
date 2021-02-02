@@ -136,7 +136,6 @@ alias cat="bat --theme=Dracula"
 alias goot='cd $(eval "git root")'
 export WORKON_HOME=$HOME/venvwrappers
 export KUBE_EDITOR=nvim
-export BAT_PAGER='less -RFS'
 source /usr/local/bin/virtualenvwrapper.sh
 . /usr/local/etc/profile.d/z.sh
 source <(cortex completion zsh)
