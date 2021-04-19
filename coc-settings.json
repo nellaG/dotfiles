@@ -12,6 +12,7 @@
   "python.linting.pylintArgs": [
     "--generated-members=numpy.* ,torch.* ,cv2.* , cv.*"
   ],
+  "coc.preferences.hoverTarget": "float",
   "languageserver": {
     "golang": {
       "command": "gopls",
