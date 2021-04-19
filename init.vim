@@ -169,11 +169,43 @@ if executable('rls')
         \ })
 endif
 
+"=== coc settings =====================
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+" ====================================
+
 
 " colorscheme install
 Plug 'arcticicestudio/nord-vim'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'trevordmiller/nova-vim'
+Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 
 let g:airline_theme = 'nord'
 
@@ -190,9 +222,10 @@ nnoremap <C-p> :bprevious<CR>
 
 "set termguicolors
 colo nord
-
 highlight CocErrorSign guifg=#F47293 ctermfg=203
+highlight CocErrorHighlight guibg=#F47293 ctermbg=203
 highlight CocWarningSign guifg=#72F4D7 ctermfg=50
+highlight CocWarningHighlight guibg=#72F4D7 ctermbg=50
 highlight ExtraWhitespace ctermbg=255 guibg=#ffffff
 highlight IndentGuidesEven guibg=#5c7080 ctermbg=2
 highlight IndentGuidesOdd guibg=#4c6070 ctermbg=4
