@@ -13,7 +13,7 @@ sudo mv nvim.appimage /usr/bin/nvim
 #sudo apt-get update
 
 # clone dotfile
-git clone git@github.com:nellaG/dotfiles.git
+#git clone git@github.com:nellaG/dotfiles.git
 
 # install screenfetch
 sudo apt install screenfetch
@@ -36,7 +36,8 @@ sudo dpkg -i fd_8.2.1_amd64.deb
 wget https://github.com/sharkdp/vivid/releases/download/v0.6.0/vivid_0.6.0_amd64.deb
 sudo dpkg -i vivid_0.6.0_amd64.deb
 
-
+# install curl
+sudo apt install -y curl
 
 
 # neovim configuration
@@ -52,6 +53,9 @@ nvim -c "PlugInstall" -c wq
 
 cp coc-settings.json to ~/.config/nvim
 cp dotfiles/coc-settings.json ~/.config/nvim/
+
+# install coc
+nvim -c "CocInstall coc-python coc-rls coc-go coc-git coc-eslint coc-diagnostic coc-tsserver coc-sh coc-snippets coc-pyright" -c wq
 
 
 # install Hack nerd fonts
@@ -113,11 +117,12 @@ sudo apt install software-properties-common
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 sudo apt-get install python3.8-distutils
 python get-pip.py
+sudo apt install python3-pip
 
 # change d efault pip to pip3
-sudo update-alternatives --install /usr/bin/pip pip /home/gallen/.local/bin/pip3 1
-sudo update-alternatives --install /usr/bin/pip pip /home/gallen/.local/bin/pip 2
- sudo update-alternatives --config pip
+#sudo update-alternatives --install /usr/bin/pip pip /home/gallen/.local/bin/pip3 1
+#sudo update-alternatives --install /usr/bin/pip pip /home/gallen/.local/bin/pip 2
+# sudo update-alternatives --config pip
 
 # install virtualenvwrapper
 sudo pip install virtualenvwrapper
@@ -127,7 +132,28 @@ sudo pip install virtualenvwrapper
 sudo apt install awscli
 
 # install zsh
-sudo apt install zsh
+#sudo apt install zsh
 
 #install ohmyzsh
 sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# install autosuggestion
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+
+#install zoxide (zsh ver)
+git clone https://github.com/agkozak/zsh-z $ZSH_CUSTOM/plugins/zsh-z
+
+# install zsh zeta theme
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/skylerlee/zeta-zsh-theme/master/scripts/install.sh)"
+
+# powerline status
+
+sudo pip install powerline-status
+
+# install npm, n
+sudo apt install -y npm
+sudo npm install -g n
+
+# install node lts
+sudo n lts

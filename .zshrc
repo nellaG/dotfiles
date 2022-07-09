@@ -16,7 +16,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # blinks
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="zeta"
+#ZSH_THEME="agnosterzak"
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -76,17 +77,14 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-source $ZSH/oh-my-zsh.sh  # this should be after prompt theme
-
 # User configuration
 alias vi=nvim
 alias ag="git grep"
 
-export ZPLUG_HOME=/usr/local/opt/zplug
-source $ZPLUG_HOME/init.zsh
 plugins=(
   git
   zsh-autosuggestions
+  zsh-z
 )
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#c6faef,bold"
 GOPATH=$HOME/go/bin
@@ -123,9 +121,9 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=79 # gallen 76
-typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=87
-typeset -g POWERLEVEL9K_DIR_FOREGROUND=81 # gallen31
+#typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=79 # gallen 76
+#typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=87
+#typeset -g POWERLEVEL9K_DIR_FOREGROUND=81 # gallen31
 
 
 source $ZSH/oh-my-zsh.sh  # this should be after prompt theme
@@ -134,8 +132,8 @@ source $ZSH/oh-my-zsh.sh  # this should be after prompt theme
 alias ls="exa -alh"
 alias cat="bat --theme=Dracula"
 alias goot='cd $(eval "git root")'
+alias black="black --color"
 export WORKON_HOME=$HOME/venvwrappers
 export KUBE_EDITOR=nvim
 source /usr/local/bin/virtualenvwrapper.sh
-. /usr/local/etc/profile.d/z.sh
-source <(cortex completion zsh)
+#source <(cortex completion zsh)
