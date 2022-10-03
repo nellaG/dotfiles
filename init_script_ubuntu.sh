@@ -12,6 +12,12 @@ sudo mv nvim.appimage /usr/bin/nvim
 #sudo add-apt-repository ppa:neovim-ppa/stable
 #sudo apt-get update
 
+# install git snap
+sudo apt install git snap
+
+# install github cli
+sudo snap install gh
+
 # clone dotfile
 #git clone git@github.com:nellaG/dotfiles.git
 
@@ -57,6 +63,8 @@ cp dotfiles/coc-settings.json ~/.config/nvim/
 # install coc
 nvim -c "CocInstall coc-python coc-rls coc-go coc-git coc-eslint coc-diagnostic coc-tsserver coc-sh coc-snippets coc-pyright" -c wq
 
+# install coc language server packages
+nvim -c "CocInstall rcjsuen/dockerfile-language-server-nodejs coc-go coc-json  coc-rust-analyzer" -c wq
 
 # install Hack nerd fonts
 wget https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip
@@ -127,7 +135,6 @@ sudo apt install python3-pip
 # install virtualenvwrapper
 sudo pip install virtualenvwrapper
 
-
 # install awscli
 sudo apt install awscli
 
@@ -157,3 +164,8 @@ sudo npm install -g n
 
 # install node lts
 sudo n lts
+# install z
+git clone https://github.com/agkozak/zsh-z $ZSH_CUSTOM/plugins/zsh-z
+
+# install github cli
+sudo apt install gh

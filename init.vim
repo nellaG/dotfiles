@@ -107,7 +107,7 @@ autocmd Filetype html
       \ set softtabstop=2 |
 autocmd Filetype js
       \ colo material-theme |
-autocmd FileType python set cc=120
+autocmd FileType python set cc=80,120
 autocmd FileType txt set cc=105
 autocmd FileType markdown set cc=120
 

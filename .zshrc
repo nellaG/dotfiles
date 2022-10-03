@@ -9,15 +9,14 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+export ZSH="/Users/gallen/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # blinks
-ZSH_THEME="zeta"
-#ZSH_THEME="agnosterzak"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -135,5 +134,7 @@ alias goot='cd $(eval "git root")'
 alias black="black --color"
 export WORKON_HOME=$HOME/venvwrappers
 export KUBE_EDITOR=nvim
+#export BAT_PAGER='less -RFS'  dont set (weird behavior)
 source /usr/local/bin/virtualenvwrapper.sh
-#source <(cortex completion zsh)
+source /usr/share/virtualenvwrapper/virtualenvwrapper.sh  # ubuntu 20.04
+. /usr/local/etc/profile.d/z.sh
