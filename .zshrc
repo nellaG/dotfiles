@@ -138,3 +138,4 @@ export KUBE_EDITOR=nvim
 source /usr/local/bin/virtualenvwrapper.sh
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh  # ubuntu 20.04
 . /usr/local/etc/profile.d/z.sh
+DISABLE_UNTRACKED_FILES_DIRTY="true"  # prevent too slow prompt in specific git repo
