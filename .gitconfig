@@ -1,6 +1,6 @@
 [core]
   editor = nvim
-  #pager = delta
+  pager = delta
 [user]
 	email = seirios0107@gmail.com
   name = nellag
@@ -12,6 +12,12 @@
 [interactive]
   diffFilter = delta --color-only
 [delta]
+  # delta --show=config
+  minus-style = normal "#610b02"
+  plus-style = normal "#013982"
+  plus-emph-style = syntax "#075ff7"
+  plus-empty-line-marker-style = normal "#013982"
+  line-numbers-plus-style = normal "#075ff7"
   line-numbers = true
-  #side-by-side = true
+  side-by-side = false
   syntax-theme = DarkNeon
