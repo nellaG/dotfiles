@@ -33,7 +33,7 @@ set completeopt=noinsert,menuone,noselect
 "let g:ncm2_jedi#environment = '/usr'
 
 " alrline settings
-let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 0  " for bufferline
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#show_close_button = 0
 
@@ -81,7 +81,7 @@ endif
 
 let g:strip_whitespace_on_save = 1
 let g:better_whitespace_enabled=1
-let g:airline_theme = 'term'
+let g:airline_theme = 'base16_material'
 
 " autocmd settings
 autocmd BufNewFile,BufRead *.html.erb set filetype=html
@@ -151,11 +151,27 @@ Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/rainbow_parentheses.vim'
+"-------
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-tree/nvim-web-devicons' " Recommended (for coloured icons)
+Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
+Plug 'folke/which-key.nvim'
+Plug 'https://github.com/qpkorr/vim-bufkill'
+
+"-------
 let g:rainbow#pairs = [['(', ')'], ['[', ']']]
 augroup rainbow_lisp
   autocmd!
   autocmd FileType python,rust,sh,fish,vim RainbowParentheses
 augroup END
+
+" telescope key (leader: \ key)
+nnoremap <leader>ff :Telescope find_files<cr>
+nnoremap <leader>fg :Telescope live_grep<cr>
+nnoremap <leader>fb :Telescope buffers<cr>
+nnoremap <leader>fh :Telescope help_tags<cr>
 
 "autocompletion plugin
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': './install.sh'}
@@ -176,8 +192,23 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+" use <tab> for trigger completion and navigate to the next complete item
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+"
+inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm()
+      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -206,8 +237,10 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'trevordmiller/nova-vim'
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
-let g:airline_theme = 'nord'
+let g:material_theme_style = 'material'  " palenight | ocean
+"let g:airline_theme = 'nord'
 
 call plug#end()
 
@@ -219,9 +252,18 @@ noremap <buffer> <silent> $ g$
 nnoremap <silent> <BS> :TmuxNavigateLeft<cr>
 nnoremap <C-n> :bnext<CR>
 nnoremap <C-p> :bprevious<CR>
+nnoremap <C-i> a <ESC>r
+nnoremap <F8> :NvimTreeToggle<CR>
+" command line mode mapping
+cnoremap bd BD
 
-"set termguicolors
-colo nord
+set termguicolors
+lua << EOF
+require("bufferline").setup{}
+require("nvim-tree").setup()
+EOF
+colo material
+
 highlight CocErrorSign guifg=#F47293 ctermfg=203
 highlight CocErrorHighlight guibg=#F47293 ctermbg=203
 highlight CocWarningSign guifg=#72F4D7 ctermfg=50
@@ -229,12 +271,11 @@ highlight CocWarningHighlight guibg=#72F4D7 ctermbg=50
 highlight ExtraWhitespace ctermbg=255 guibg=#ffffff
 highlight IndentGuidesEven guibg=#5c7080 ctermbg=2
 highlight IndentGuidesOdd guibg=#4c6070 ctermbg=4
-highlight LineNr guibg=NONE ctermbg=NONE
-"highlight Normal guibg=NONE ctermbg=NONE
+" highlight LineNr guibg=NONE ctermbg=NONE
+highlight Normal guibg=NONE ctermbg=NONE
 highlight SpellBad term=reverse ctermbg=118 ctermfg=016 guibg=#87ff00 guifg=#000000
 highlight clear SignColumn
 highlight SignColumn guibg=NONE ctermbg=NONE
 highlight Visual ctermbg=3
 highlight ColorColumn ctermbg=2
-let g:indent_guides_auto_colors = 0
 let g:indent_guides_start_level = 2
