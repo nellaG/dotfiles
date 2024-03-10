@@ -4,13 +4,10 @@
 #ssh-keygen -t ed25519 -C "seirios0107@gmail.com"
 
 # install neovim
-# if ubuntu is older than 18.04: download release
-wget https://github.com/neovim/neovim/releases/download/v0.4.4/nvim.appimage
-chmod u+x nvim.appimage && ./nvim.appimage
-sudo mv nvim.appimage /usr/bin/nvim
-#sudo apt-get install python-software-properties
-#sudo add-apt-repository ppa:neovim-ppa/stable
-#sudo apt-get update
+sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:neovim-ppa/stable
+sudo apt-get update
+sudo apt-get install neovim
 
 # install git snap
 sudo apt install git snap
