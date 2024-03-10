@@ -10,7 +10,6 @@ set hlsearch
 set ignorecase
 set langmenu=en_US.UTF-8 " show status message in English
 set nu
-language messages en_US.UTF-8
 set laststatus=2
 set nobackup
 set novb
@@ -27,16 +26,21 @@ set updatetime=200  " for gitgutter
 "set shell=/bin/bash\ -i
 set shell=sh " this resolves slow loading time of fish....why?
 
-" IMPORTANT: :help Ncm2PopupOpen for more information
-set completeopt=noinsert,menuone,noselect
-
-"let g:ncm2_jedi#environment = '/usr'
-
 " alrline settings
 let g:airline#extensions#tabline#enabled = 0  " for bufferline
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#show_close_button = 0
 
+" vim-go settings
+let $HIGHLIGHT_SETTINGS = join(['array_whitespace_error', 'build_constraints',
+        \ 'chan_whitespace_error', 'extra_types', 'fields', 'format_strings',
+        \ 'function_arguments', 'function_calls', 'functions', 'generate_tags',
+        \ 'operators', 'space_tab_error', 'string_spellcheck',
+        \ 'trailing_whitespace_error', 'types', 'variable_assignments',
+        \ 'variable_declarations'], ' ')
+for s:s in split($HIGHLIGHT_SETTINGS, ' ')
+  call execute('let g:go_highlight_' . s:s . ' = 1')
+endfor
 
 " gitgutter settings
 let g:gitgutter_override_sign_column_highlight = 0
@@ -44,10 +48,6 @@ let g:gitgutter_sign_added              = '✚'
 let g:gitgutter_sign_modified           = '~'
 let g:gitgutter_sign_removed            = '_'
 let g:gitgutter_sign_removed            = '_'
-
-" vim-go settings
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
 
 " indent_guides settings
 let g:indent_guides_enable_on_vim_startup = 1
@@ -93,8 +93,11 @@ autocmd BufNewFile,BufRead *.scss set filetype=css
 autocmd BufNewFile,BufRead *.sh set filetype=sh
 autocmd BufNewFile,BufRead *.yml set filetype=yaml
 autocmd BufNewFile,BufRead *.txt set filetype=txt
-"enable ncm2 for all buffers
-"autocmd BufEnter * call ncm2#enable_for_buffer()
+
+autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+autocmd FileType go nmap gtj :CocCommand go.tags.add json<cr>
+autocmd FileType go nmap gty :CocCommand go.tags.add yaml<cr>
+autocmd FileType go nmap gtx :CocCommand go.tags.clear<cr>
 
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=2
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=4
@@ -151,6 +154,7 @@ Plug 'plasticboy/vim-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/rainbow_parentheses.vim'
+
 "-------
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -235,12 +239,14 @@ endif
 " colorscheme install
 Plug 'arcticicestudio/nord-vim'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'trevordmiller/nova-vim'
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
+Plug 'shaunsingh/solarized.nvim'
+Plug 'michaelmalick/vim-colors-bluedrake'
+Plug 'talha-akram/noctis.nvim'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
-let g:material_theme_style = 'material'  " palenight | ocean
-"let g:airline_theme = 'nord'
+let g:material_theme_style = 'palenight'  " palenight | ocean
+"let g:airline_theme = 'rigel'
 
 call plug#end()
 
@@ -271,8 +277,8 @@ highlight CocWarningHighlight guibg=#72F4D7 ctermbg=50
 highlight ExtraWhitespace ctermbg=255 guibg=#ffffff
 highlight IndentGuidesEven guibg=#5c7080 ctermbg=2
 highlight IndentGuidesOdd guibg=#4c6070 ctermbg=4
-" highlight LineNr guibg=NONE ctermbg=NONE
-highlight Normal guibg=NONE ctermbg=NONE
+"highlight LineNr guibg=NONE ctermbg=NONE
+"highlight Normal guibg=NONE ctermbg=NONE
 highlight SpellBad term=reverse ctermbg=118 ctermfg=016 guibg=#87ff00 guifg=#000000
 highlight clear SignColumn
 highlight SignColumn guibg=NONE ctermbg=NONE
