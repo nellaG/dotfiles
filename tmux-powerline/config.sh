@@ -23,12 +23,12 @@
 	export TMUX_POWERLINE_STATUS_INTERVAL="1"
 	# The location of the window list. Can be {"absolute-centre, centre, left, right"}.
 	# Note that "absolute-centre" is only supported on `tmux -V` >= 3.2.
-	export TMUX_POWERLINE_STATUS_JUSTIFICATION="centre"
+	export TMUX_POWERLINE_STATUS_JUSTIFICATION="left"
 
 	# The maximum length of the left status bar.
-	export TMUX_POWERLINE_STATUS_LEFT_LENGTH="60"
+	export TMUX_POWERLINE_STATUS_LEFT_LENGTH="40"
 	# The maximum length of the right status bar.
-	export TMUX_POWERLINE_STATUS_RIGHT_LENGTH="90"
+	export TMUX_POWERLINE_STATUS_RIGHT_LENGTH="120"
 
 	# Uncomment these if you want to enable tmux bindings for muting (hiding) one of the status bars.
 	# E.g. this example binding would mute the left status bar when pressing <prefix> followed by Ctrl-[
@@ -45,8 +45,8 @@
 	export TMUX_POWERLINE_SEG_AIR_JSON="jq"
 	# Your location
 	# Latitude and Longitude:
-	TMUX_POWERLINE_SEG_AIR_LAT=""
-	TMUX_POWERLINE_SEG_AIR_LON=""
+	TMUX_POWERLINE_SEG_AIR_LAT="37.517235"
+	TMUX_POWERLINE_SEG_AIR_LON="127.047325"
 	# Your Open Weather API Key:
 	TMUX_POWERLINE_SEG_AIR_OPEN_WEATHER_API_KEY=""
 # }
@@ -238,8 +238,8 @@
 	export TMUX_POWERLINE_SEG_WEATHER_JSON="jq"
 	# Your location
 	# Latitude and Longtitude for use with yr.no
-	TMUX_POWERLINE_SEG_WEATHER_LAT=""
-	TMUX_POWERLINE_SEG_WEATHER_LON=""
+	TMUX_POWERLINE_SEG_WEATHER_LAT="37.517235"
+	TMUX_POWERLINE_SEG_WEATHER_LON="127.047325"
 # }
 
 # xkb_layout.sh {
