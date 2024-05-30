@@ -1,24 +1,13 @@
-# Path to Oh My Fish install.
-set -gx OMF_PATH "/Users/$USER/.local/share/omf"
+# Load oh-my-posh configuration.
+oh-my-posh init fish --config /Users/$USER/powerline10k_rainbow_fish.omp.json | source
 
-# Customize Oh My Fish configuration path.
-#set -gx OMF_CONFIG "/Users/gallen/.config/omf"
-
-# Load oh-my-fish configuration.
-source $OMF_PATH/init.fish
-
-eval (python -m virtualfish compat_aliases)
+set -g VIRTUALFISH_PYTHON "/usr/local/bin/python3"
+set -g VIRTUALFISH_PLUGINS "auto_activation compat_aliases"
+set -g VIRTUALFISH_HOME "/Users/$USER/venvwrappers"
 
 set -gx OPENSSL_LIB_DIR "/usr/local/opt/openssl/lib"
-set -gx POWERLINE_COMMAND "powerline"
-set -gx POWERLINE_ROOT "/Users/$USER/powerline"
-set -gx TMUX_CONFIG_DIRECTORY "/Users/$USER/.config/powerline"
-
 
 set -gx OPENSSL_INCLUDE_DIR "/usr/local/opt/openssl/include"
-
-set -gx PATH "/usr/local/lib/python2.7/site-packages/PySide" $PATH
-set -g fish_user_paths "/usr/local/opt/postgresql@9.6/bin" $fish_user_paths
 
 set -gx NVM_DIR "/Users/$USER/.nvm"
 set -gx NODE_VER (echo (node --version) | cut -d "v" -f2)
@@ -42,27 +31,34 @@ set -g fish_user_paths "/usr/local/opt/openssl/bin" $fish_user_paths
 
 set -gx RUST_SRC_PATH "/Users/$USER/.rustup/toolchains/nightly-x86_64-apple-darwin/lib/rustlib/src/rust/src"
 
-set -gx XDG_CONFIG_DIRS "/Library/Python/2.7/site-packages"
-
-set -gx PATH "/Users/$USER/.pyenv/shims" $PATH
-
-set -gx PYENV_SHELL fish
-source '/usr/local/Cellar/pyenv/1.2.4/libexec/../completions/pyenv.fish'
-command pyenv rehash 2>/dev/null
-function pyenv
-  set command $argv[1]
-  set -e argv[1]
-
-  switch "$command"
-  case activate deactivate rehash shell
-    source (pyenv "sh-$command" $argv|psub)
-  case '*'
-    command pyenv "$command" $argv
-  end
-end
-
 set fish_color_normal "#FFFFFF"
 set fish_color_command "#4FAA96"
 set fish_color_param "#72F4D7"
 set fish_color_autosuggestion "#C6FAEF"
 set fish_color_error "#F47293"
+set -gx TMUX_POWERLINE_THEME bubble
+
+# to override ls command
+alias ls="exa -alh --color=always"
+alias cat="bat --theme=Dracula"
+alias goot='cd $(eval "git root")'
+alias gl='git log'
+alias ag='rg'
+alias black="black --color"
+alias da='django-admin'
+export WORKON_HOME=$HOME/venvwrappers
+export KUBE_EDITOR=nvim
+#export BAT_PAGER='less -RFS'  dont set (weird behavior)
+#
+export AWS_ACCOUNT_ID=''
+
+# for gotest colorization
+export GOTEST_PALETTE="hired,hicyan"
+
+export GITSTATUS_LOG_LEVEL=DEBUG
+eval "$(atuin init fish)"
+export DATABASE_HASH=''
+export NOTION_KEY=''
+export NPM_TOKEN=''
+alias shfmt='shfmt -i 2'
+
