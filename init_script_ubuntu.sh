@@ -58,7 +58,7 @@ cp coc-settings.json to ~/.config/nvim
 cp dotfiles/coc-settings.json ~/.config/nvim/
 
 # install coc
-nvim -c "CocInstall coc-python coc-rls coc-go coc-git coc-eslint coc-diagnostic coc-tsserver coc-sh coc-snippets coc-pyright" -c wq
+nvim -c "CocInstall coc-ruff coc-rls coc-go coc-git coc-eslint coc-diagnostic coc-tsserver coc-sh coc-snippets coc-pyright" -c wq
 
 # install coc language server packages
 nvim -c "CocInstall rcjsuen/dockerfile-language-server-nodejs coc-go coc-json  coc-rust-analyzer" -c wq
@@ -166,3 +166,9 @@ git clone https://github.com/agkozak/zsh-z $ZSH_CUSTOM/plugins/zsh-z
 
 # install github cli
 sudo apt install gh
+
+sudo apt install duf
+sudo apt install procs
+sudo apt install du-dust
+curl -LO https://github.com/ClementTsang/bottom/releases/download/0.10.2/bottom_0.10.2-1_amd64.deb
+sudo dpkg -i bottom_0.10.2-1_amd64.deb  # install bottom: graphical process/system monitor
