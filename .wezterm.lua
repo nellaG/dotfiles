@@ -20,6 +20,7 @@ config.color_scheme = 'Navy and Ivory (terminal.sexy)'
 config.color_scheme = 'Palenight (Gogh)'
 config.color_scheme = 'Nova (base16)'
 config.color_scheme = 'Palenight (Gogh)'
+config.window_background_opacity = 0.9
 
 -- and finally, return the configuration to wezterm
 return config

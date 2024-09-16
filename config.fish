@@ -62,3 +62,6 @@ export NOTION_KEY=''
 export NPM_TOKEN=''
 alias shfmt='shfmt -i 2'
 
+
+alias cpls='cat ~/dotfiles/cplist.yaml'
+

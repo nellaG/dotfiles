@@ -58,7 +58,7 @@ cp coc-settings.json to ~/.config/nvim
 cp dotfiles/coc-settings.json ~/.config/nvim/
 
 # install coc
-nvim -c "CocInstall coc-ruff coc-rls coc-go coc-git coc-eslint coc-diagnostic coc-tsserver coc-sh coc-snippets coc-pyright" -c wq
+nvim -c "CocInstall coc-ruff coc-rls coc-go coc-git coc-eslint coc-diagnostic coc-tsserver coc-sh coc-snippets coc-pyright coc-prettier" -c wq
 
 # install coc language server packages
 nvim -c "CocInstall rcjsuen/dockerfile-language-server-nodejs coc-go coc-json  coc-rust-analyzer" -c wq
