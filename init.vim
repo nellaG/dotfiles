@@ -290,6 +290,49 @@ lua << EOF
 
 require("bufferline").setup()
 require("nvim-tree").setup()
+local virtual_env = function()
+  -- only show virtual env for Python
+  if vim.bo.filetype ~= 'python' then
+    return ""
+  end
+
+  local venv_path = os.getenv('VIRTUAL_ENV')
+
+  if venv_path == nil then
+    return ""
+  else
+    local venv_name = vim.fn.fnamemodify(venv_path, ':t')
+    return string.format(" (%s)", venv_name)
+  end
+end
+
+require('lualine').setup {
+  options = {
+    theme = 'everforest',
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype', virtual_env},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {'filename'},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  tabline = {},
+  winbar = {},
+  inactive_winbar = {},
+  extensions = {}
+}
+
+
 EOF
 colo everforest
 
