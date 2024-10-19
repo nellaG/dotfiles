@@ -24,14 +24,17 @@ set cc=80,120
 set updatetime=200  " for gitgutter
 " solution for slow tmux navigator
 "set shell=/bin/bash\ -i
-set shell=sh " this resolves slow loading time of fish....why?
+set shell=sh " this resolves slow pane changing nvim opened pane and other pane with tmux navigator
 
 " alrline settings
 let g:airline#extensions#tabline#enabled = 0  " for bufferline
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#show_close_button = 0
 
-" vim-go settings
+" go settings
+let g:go_fmt_command = "gopls"
+let g:go_gopls_gofumpt=1
+
 let $HIGHLIGHT_SETTINGS = join(['array_whitespace_error', 'build_constraints',
         \ 'chan_whitespace_error', 'extra_types', 'fields', 'format_strings',
         \ 'function_arguments', 'function_calls', 'functions', 'generate_tags',
@@ -41,6 +44,8 @@ let $HIGHLIGHT_SETTINGS = join(['array_whitespace_error', 'build_constraints',
 for s:s in split($HIGHLIGHT_SETTINGS, ' ')
   call execute('let g:go_highlight_' . s:s . ' = 1')
 endfor
+let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+
 
 " gitgutter settings
 let g:gitgutter_override_sign_column_highlight = 0
@@ -72,13 +77,6 @@ let g:racer_experimental_completer = 1
 
 
 let g:html_indent_tags = 'p\|li\|nav'
-" Figure out the system Python for Neovim.
-if exists("$VIRTUAL_ENV")
-    let g:python3_host_prog=substitute(system("which -a python | head -n1"), "\n", '', 'g')
-else
-    let g:python3_host_prog=substitute(system("which python"), "\n", '', 'g')
-endif
-
 let g:strip_whitespace_on_save = 1
 let g:better_whitespace_enabled=1
 let g:airline_theme = 'base16_material'
@@ -98,6 +96,7 @@ autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.org
 autocmd FileType go nmap gtj :CocCommand go.tags.add json<cr>
 autocmd FileType go nmap gty :CocCommand go.tags.add yaml<cr>
 autocmd FileType go nmap gtx :CocCommand go.tags.clear<cr>
+autocmd FileType python let b:coc_root_patterns = ['.git', '.env']
 
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=2
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=4
@@ -105,6 +104,14 @@ autocmd Filetype elixir
       \ set ts=2 |
       \ set sw=2
 autocmd Filetype html
+      \ set tabstop=2 |
+      \ set shiftwidth=2 |
+      \ set softtabstop=2 |
+autocmd BufNewFile,BufRead *.tsx
+      \ set tabstop=2 |
+      \ set shiftwidth=2 |
+      \ set softtabstop=2 |
+autocmd BufNewFile,BufRead *.ts
       \ set tabstop=2 |
       \ set shiftwidth=2 |
       \ set softtabstop=2 |
@@ -133,15 +140,14 @@ syntax enable
 " Plugins "
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'bling/vim-airline'
 Plug 'rust-lang/rust.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'racer-rust/vim-racer'
 Plug 'tmux-plugins/vim-tmux'
 Plug 'cespare/vim-toml'
 Plug 'peterhoeg/vim-qml'
-Plug 'nathanaelkane/vim-indent-guides'
+Plug 'preservim/vim-indent-guides'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'jason0x43/vim-js-indent'
@@ -190,11 +196,22 @@ if executable('rls')
 endif
 
 "=== coc settings =====================
+
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
 
 " use <tab> for trigger completion and navigate to the next complete item
 function! CheckBackspace() abort
@@ -235,18 +252,23 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
 endif
 " ====================================
 
-
 " colorscheme install
-Plug 'arcticicestudio/nord-vim'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
-Plug 'shaunsingh/solarized.nvim'
 Plug 'michaelmalick/vim-colors-bluedrake'
-Plug 'talha-akram/noctis.nvim'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'neanias/everforest-nvim', { 'branch': 'main' }
+Plug 'whatyouhide/vim-gotham'
+Plug 'rebelot/kanagawa.nvim'
+Plug 'AlexvZyl/nordic.nvim', { 'branch': 'main' }
+Plug 'EdenEast/nightfox.nvim'
+
+" tabline / status install
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'nvim-tree/nvim-web-devicons'
+
+
 
 let g:material_theme_style = 'palenight'  " palenight | ocean
-"let g:airline_theme = 'rigel'
 
 call plug#end()
 
@@ -265,11 +287,14 @@ cnoremap bd BD
 
 set termguicolors
 lua << EOF
-require("bufferline").setup{}
+
+require("bufferline").setup()
 require("nvim-tree").setup()
 EOF
-colo material
+colo everforest
 
+highlight CocHintSign guifg=#CCF384 ctermfg=203
+highlight CocHintHighlight guibg=#CCF384 ctermbg=203
 highlight CocErrorSign guifg=#F47293 ctermfg=203
 highlight CocErrorHighlight guibg=#F47293 ctermbg=203
 highlight CocWarningSign guifg=#72F4D7 ctermfg=50
