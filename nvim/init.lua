@@ -83,6 +83,16 @@ require("nvim-treesitter.configs").setup {
   auto_install = true,
 }
 
+local ch_presets = require("markview.presets").checkboxes
+local he_presets = require("markview.presets").headings
+local hl_presets = require("markview.presets").horizontal_rules
+
+require("markview").setup {
+  checkboxes = ch_presets.nerd,
+  headings = he_presets.slanted,
+  horizontal_rules = hl_presets.arrowed,
+}
+
 require("gitsigns").setup {
   signs = {
     add = { text = "✚" },
@@ -210,7 +220,6 @@ require("ibl").setup {
 }
 
 hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
-
 -- custom config end
 
 -- load theme
