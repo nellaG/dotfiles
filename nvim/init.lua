@@ -89,8 +89,10 @@ local hl_presets = require("markview.presets").horizontal_rules
 
 require("markview").setup {
   checkboxes = ch_presets.nerd,
-  headings = he_presets.slanted,
-  horizontal_rules = hl_presets.arrowed,
+  markdown = {
+    headings = he_presets.slanted,
+    horizontal_rules = hl_presets.arrowed,
+  },
 }
 
 require("gitsigns").setup {
@@ -218,6 +220,28 @@ require("ibl").setup {
     highlight = highlight,
   },
 }
+
+require("hologram").setup {
+  auto_display = true, -- WIP automatic markdown image display, may be prone to breaking
+}
+require("wilder").setup {
+  modes = { ":", "/", "?" },
+}
+require("telescope").load_extension "remote-sshfs"
+
+require("leetcode").setup {
+  lang = "python",
+}
+require("exercism").setup {
+  exercism_workspace = "~/exercism", -- Default workspace for exercism exercises
+  default_language = "rust", -- Default language for exercise list
+  add_default_keybindings = true, -- Whether to add default keybindings
+  icons = {
+    concept = "", -- Icon for concept exercises
+    practice = "", -- Icon for practice exercises
+  },
+}
+require("competitest").setup()
 
 hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
 -- custom config end
