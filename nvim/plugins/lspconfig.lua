@@ -2,7 +2,7 @@ return {
   "neovim/nvim-lspconfig",
   config = function()
     -- rust-analyzer 설정 (Neovim 0.11+ 방식)
-    vim.lsp.config('rust_analyzer', {
+    vim.lsp.config("rust_analyzer", {
       on_attach = function(client, bufnr)
         -- inlay hints 활성화
         if vim.lsp.inlay_hint then
@@ -10,10 +10,8 @@ return {
         end
       end,
       settings = {
-        ['rust-analyzer'] = {
-          checkOnSave = {
-            command = "clippy",
-          },
+        ["rust-analyzer"] = {
+          checkOnSave = true,
           cargo = {
             allFeatures = true,
             loadOutDirsFromCheck = true,
@@ -58,7 +56,7 @@ return {
     })
 
     -- gopls 설정
-    vim.lsp.config('gopls', {
+    vim.lsp.config("gopls", {
       settings = {
         gopls = {
           gofumpt = true,
@@ -81,11 +79,11 @@ return {
     })
 
     -- LSP 서버들 활성화
-    vim.lsp.enable('rust_analyzer')
-    vim.lsp.enable('gopls')
-    vim.lsp.enable('lua_ls')
-    vim.lsp.enable('pyright')
-    vim.lsp.enable('html')
-    vim.lsp.enable('cssls')
+    vim.lsp.enable "rust_analyzer"
+    vim.lsp.enable "gopls"
+    vim.lsp.enable "lua_ls"
+    vim.lsp.enable "pyright"
+    vim.lsp.enable "html"
+    vim.lsp.enable "cssls"
   end,
 }

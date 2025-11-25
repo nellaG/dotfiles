@@ -163,4 +163,22 @@ return {
       require("claude-code").setup()
     end,
   },
+  {
+    "toppair/peek.nvim",
+    event = { "VeryLazy" },
+    build = "deno task --quiet build:fast",
+    config = function()
+      require("peek").setup()
+      vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
+      vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
+    end,
+  },
+  {
+    "github/copilot.vim",
+    lazy = false,
+    config = function() -- Mapping tab is already used in NvChad
+      vim.g.copilot_no_tab_map = true -- Disable tab mapping
+      vim.g.copilot_assume_mapped = true -- Assume that the mapping is already done
+    end,
+  },
 }
