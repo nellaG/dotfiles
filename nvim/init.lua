@@ -1,3 +1,10 @@
+-- disable netrw at the very start of your init.lua
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- optionally enable 24-bit colour
+vim.opt.termguicolors = true
+
 vim.g.base46_cache = vim.fn.stdpath "data" .. "/base46/"
 vim.g.mapleader = "\\" -- set leader key
 
@@ -31,6 +38,9 @@ require("lazy").setup({
 vim.opt.whichwrap:remove "<"
 vim.opt.whichwrap:remove ">"
 vim.opt.colorcolumn = { 100, 120 }
+vim.opt.encoding = "utf-8"
+vim.opt.fileformats = { "unix" }
+vim.opt.bomb = false
 
 -- Run gofmt + goimports on save
 vim.api.nvim_create_autocmd("BufWritePre", {
@@ -252,6 +262,14 @@ require("exercism").setup {
 }
 require("competitest").setup()
 
+require("peek").setup {
+  syntax = true,
+  theme = "dark",
+  update_on_change = true,
+  app = "browser",
+  filetype = { "markdown" },
+}
+
 require("claude-code").setup {
   -- Terminal window settings
   window = {
@@ -311,6 +329,14 @@ require("claude-code").setup {
     },
     window_navigation = true, -- Enable window navigation keymaps (<C-h/j/k/l>)
     scrolling = true, -- Enable scrolling keymaps (<C-f/b>) for page up/down
+  },
+}
+
+-- OR setup with some options
+require("nvim-tree").setup {
+  filters = {
+    dotfiles = false,
+    git_ignored = false,
   },
 }
 
