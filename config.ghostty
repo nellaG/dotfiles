@@ -1,0 +1,17 @@
+theme = Rapture
+font-family = "Hack Nerd Font Mono"
+font-family = Apple SD Gothic Neo
+
+
+window-padding-x = 4
+window-padding-y = 4
+window-padding-color = extend
+window-padding-balance = true
+resize-overlay = never
+command = "/opt/homebrew/bin/fish --login --interactive"
+copy-on-select = "clipboard"
+
+
+macos-option-as-alt = true
+
+bell-features = no-system,no-audio,attention,title,border
