@@ -9,6 +9,7 @@ local options = {
     fish = { "fish_indent" },
     htmldjango = { "djlint" },
     rust = { "rustfmt" },
+    markdown = { "prettier" },
   },
 
   format_on_save = {

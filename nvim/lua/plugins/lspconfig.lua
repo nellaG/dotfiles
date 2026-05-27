@@ -11,7 +11,7 @@ return {
       end,
       settings = {
         ["rust-analyzer"] = {
-          checkOnSave = true,
+          checkOnSave = false,
           cargo = {
             allFeatures = true,
             loadOutDirsFromCheck = true,
@@ -85,5 +85,6 @@ return {
     vim.lsp.enable "pyright"
     vim.lsp.enable "html"
     vim.lsp.enable "cssls"
+    vim.lsp.enable "marksman"
   end,
 }

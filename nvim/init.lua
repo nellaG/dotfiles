@@ -95,19 +95,8 @@ require("nvim-treesitter.configs").setup {
   auto_install = true,
 }
 
-local ch_presets = require("markview.presets").checkboxes
-local he_presets = require("markview.presets").headings
-local hl_presets = require("markview.presets").horizontal_rules
-
-require("markview").setup {
-  checkboxes = ch_presets.nerd,
-  markdown = {
-    headings = he_presets.slanted,
-    horizontal_rules = hl_presets.arrowed,
-  },
-}
-
 require("gitsigns").setup {
+  enabled = false,
   signs = {
     add = { text = "✚" },
     change = { text = "┃" },
@@ -240,27 +229,7 @@ require("ibl").setup {
   },
 }
 
-require("hologram").setup {
-  auto_display = true, -- WIP automatic markdown image display, may be prone to breaking
-}
-require("wilder").setup {
-  modes = { ":", "/", "?" },
-}
 require("telescope").load_extension "remote-sshfs"
-
-require("leetcode").setup {
-  lang = "python",
-}
-require("exercism").setup {
-  exercism_workspace = "~/exercism", -- Default workspace for exercism exercises
-  default_language = "rust", -- Default language for exercise list
-  add_default_keybindings = true, -- Whether to add default keybindings
-  icons = {
-    concept = "", -- Icon for concept exercises
-    practice = "", -- Icon for practice exercises
-  },
-}
-require("competitest").setup()
 
 require("peek").setup {
   syntax = true,
@@ -270,69 +239,6 @@ require("peek").setup {
   filetype = { "markdown" },
 }
 
-require("claude-code").setup {
-  -- Terminal window settings
-  window = {
-    split_ratio = 0.3, -- Percentage of screen for the terminal window (height for horizontal, width for vertical splits)
-    position = "botright", -- Position of the window: "botright", "topleft", "vertical", "float", etc.
-    enter_insert = true, -- Whether to enter insert mode when opening Claude Code
-    hide_numbers = true, -- Hide line numbers in the terminal window
-    hide_signcolumn = true, -- Hide the sign column in the terminal window
-
-    -- Floating window configuration (only applies when position = "float")
-    float = {
-      width = "80%", -- Width: number of columns or percentage string
-      height = "80%", -- Height: number of rows or percentage string
-      row = "center", -- Row position: number, "center", or percentage string
-      col = "center", -- Column position: number, "center", or percentage string
-      relative = "editor", -- Relative to: "editor" or "cursor"
-      border = "rounded", -- Border style: "none", "single", "double", "rounded", "solid", "shadow"
-    },
-  },
-  -- File refresh settings
-  refresh = {
-    enable = true, -- Enable file change detection
-    updatetime = 100, -- updatetime when Claude Code is active (milliseconds)
-    timer_interval = 1000, -- How often to check for file changes (milliseconds)
-    show_notifications = true, -- Show notification when files are reloaded
-  },
-  -- Git project settings
-  git = {
-    use_git_root = true, -- Set CWD to git root when opening Claude Code (if in git project)
-  },
-  -- Shell-specific settings
-  shell = {
-    separator = "&&", -- Command separator used in shell commands
-    pushd_cmd = "pushd", -- Command to push directory onto stack (e.g., 'pushd' for bash/zsh, 'enter' for nushell)
-    popd_cmd = "popd", -- Command to pop directory from stack (e.g., 'popd' for bash/zsh, 'exit' for nushell)
-  },
-  -- Command settings
-  command = "claude", -- Command used to launch Claude Code
-  -- Command variants
-  command_variants = {
-    -- Conversation management
-    continue = "--continue", -- Resume the most recent conversation
-    resume = "--resume", -- Display an interactive conversation picker
-
-    -- Output options
-    verbose = "--verbose", -- Enable verbose logging with full turn-by-turn output
-  },
-  -- Keymaps
-  keymaps = {
-    toggle = {
-      normal = "<C-,>", -- Normal mode keymap for toggling Claude Code, false to disable
-      terminal = "<C-,>", -- Terminal mode keymap for toggling Claude Code, false to disable
-      variants = {
-        continue = "<leader>cC", -- Normal mode keymap for Claude Code with continue flag
-        verbose = "<leader>cV", -- Normal mode keymap for Claude Code with verbose flag
-      },
-    },
-    window_navigation = true, -- Enable window navigation keymaps (<C-h/j/k/l>)
-    scrolling = true, -- Enable scrolling keymaps (<C-f/b>) for page up/down
-  },
-}
-
--- OR setup with some options
 require("nvim-tree").setup {
   filters = {
     dotfiles = false,
@@ -340,15 +246,121 @@ require("nvim-tree").setup {
   },
 }
 
+require("faster").setup()
+
 hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
 -- custom config end
+-- Shutdown profiler: writes /tmp/nvim-quit.log every time nvim exits.
+-- Tells you exactly which step (LSP shutdown, shada write, autocmds) takes time.
+local function quit_log(msg)
+  local f = io.open("/tmp/nvim-quit.log", "a")
+  if f then
+    f:write(string.format("[%.3f] %s\n", vim.uv.hrtime() / 1e9, msg))
+    f:close()
+  end
+end
 
--- load theme
-dofile(vim.g.base46_cache .. "defaults")
+-- Trace the early shutdown stages so we can see where time goes before VimLeavePre.
+for _, ev in ipairs({ "QuitPre", "ExitPre", "BufWinLeave", "BufLeave", "BufUnload", "BufWipeout" }) do
+  vim.api.nvim_create_autocmd(ev, {
+    callback = function(args)
+      quit_log(string.format("%s buf=%s name=%s", ev, tostring(args.buf), args.file or ""))
+    end,
+  })
+end
+
+-- Tear down LSP at ExitPre — BEFORE BufUnload triggers the synchronous
+-- LSP detach/shutdown path that can block for many seconds while
+-- rust-analyzer is still indexing.
+vim.api.nvim_create_autocmd("ExitPre", {
+  callback = function()
+    local t0 = vim.uv.hrtime()
+    local function dt() return (vim.uv.hrtime() - t0) / 1e6 end
+    quit_log("ExitPre: tearing down LSP")
+
+    -- 1) SIGKILL all child processes FIRST. Once the LSP server is dead, its
+    --    rpc pipes hit EOF and Neovim treats the client as exited.
+    local self_pid = vim.fn.getpid()
+    local pgrep = io.popen("pgrep -P " .. self_pid .. " 2>/dev/null")
+    if pgrep then
+      local out = pgrep:read("*a") or ""
+      pgrep:close()
+      for line in out:gmatch("[^\r\n]+") do
+        local cpid = tonumber(line)
+        if cpid then
+          pcall(vim.uv.kill, cpid, 9)
+          quit_log(string.format("  ExitPre SIGKILL pid=%d (+%.0fms)", cpid, dt()))
+        end
+      end
+    end
+
+    -- 2) Forcibly mark all LSP clients as stopped & wipe their attached_buffers,
+    --    bypassing Neovim's shutdown protocol entirely. Without this, vim.lsp's
+    --    internal BufUnload handler (and any stop_client call) can block for
+    --    many seconds waiting for an initialize/shutdown handshake — even on a
+    --    dead process — because notify("textDocument/didClose") may stall on a
+    --    closed pipe and stop_client waits on the initialize state.
+    for _, client in ipairs(vim.lsp.get_clients()) do
+      -- best-effort: terminate the rpc channel
+      if client.rpc and type(client.rpc.terminate) == "function" then
+        pcall(client.rpc.terminate)
+      end
+      -- pretend no buffers are attached, so BufUnload skips the detach work
+      client.attached_buffers = {}
+      -- override is_stopped so any downstream code thinks it's done
+      client.is_stopped = function() return true end
+    end
+    quit_log(string.format("ExitPre: done (+%.0fms)", dt()))
+  end,
+})
+
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    local t0 = vim.uv.hrtime()
+    local function dt() return (vim.uv.hrtime() - t0) / 1e6 end
+    quit_log("=== VimLeavePre start ===")
+
+    -- belt-and-suspenders: kill any lingering LSP/job children that escaped
+    -- the ExitPre teardown (e.g., paths that don't fire ExitPre)
+    local self_pid = vim.fn.getpid()
+    local pgrep = io.popen("pgrep -P " .. self_pid .. " 2>/dev/null")
+    if pgrep then
+      local out = pgrep:read("*a") or ""
+      pgrep:close()
+      for line in out:gmatch("[^\r\n]+") do
+        local cpid = tonumber(line)
+        if cpid then pcall(vim.uv.kill, cpid, 9) end
+      end
+    end
+
+    -- Persist shada explicitly so we keep jumplist, marks, registers, and
+    -- search/command history across sessions. Normally Neovim writes shada
+    -- AFTER VimLeavePre and BEFORE VimLeave — but we're about to skip that.
+    pcall(function() vim.cmd("wshada!") end)
+    quit_log(string.format("  wshada done (+%.0fms)", dt()))
+
+    -- Fast-exit: bypass the rest of Neovim's shutdown sequence (other plugins'
+    -- VimLeavePre handlers, lazy.nvim cache write, libuv handle teardown,
+    -- macOS pipe drain). These can collectively take many seconds, especially
+    -- with active LSP rpc channels. Tradeoff: lazy.nvim will rebuild its
+    -- plugin-spec cache on next startup (one-time small cost).
+    quit_log(string.format("=== fast-exit os.exit(0) (+%.0fms) ===", dt()))
+    os.exit(0)
+  end,
+})
+
+-- Fallback only — unreachable if VimLeavePre os.exit fires as expected.
+vim.api.nvim_create_autocmd("VimLeave", {
+  callback = function()
+    quit_log("=== VimLeave fired (fallback path) ===")
+    os.exit(0)
+  end,
+})
+-- load theme dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
 require "options"
-require "nvchad.autocmds"
+require "autocmds"
 
 vim.schedule(function()
   require "mappings"

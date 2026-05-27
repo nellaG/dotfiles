@@ -19,7 +19,6 @@ map("i", "jk", "<ESC>")
 map("n", "<F8>", "<cmd>NvimTreeToggle<CR>", { desc = "nvimtree toggle window" })
 nomap("n", "<C-n>")
 
-
 -- tabufline
 map("n", "<C-n>", function()
   require("nvchad.tabufline").next()
@@ -29,14 +28,12 @@ map("n", "<C-p>", function()
   require("nvchad.tabufline").prev()
 end, { desc = "buffer goto prev" })
 
-
--- tmux navigator keymap 
-nomap('n', '<C-j>') -- resolve slow delay (~2000ms)
-map('n', '<C-h>', '<CMD>NavigatorLeft<CR>')
-map('n', '<C-l>', '<CMD>NavigatorRight<CR>')
-map('n', '<C-k>', '<CMD>NavigatorUp<CR>')
-map('n', '<C-j>', '<CMD>NavigatorDown<CR>')
-
+-- tmux navigator keymap
+nomap("n", "<C-j>") -- resolve slow delay (~2000ms)
+map("n", "<C-h>", "<CMD>NavigatorLeft<CR>")
+map("n", "<C-l>", "<CMD>NavigatorRight<CR>")
+map("n", "<C-k>", "<CMD>NavigatorUp<CR>")
+map("n", "<C-j>", "<CMD>NavigatorDown<CR>")
 
 -- go to definition
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)

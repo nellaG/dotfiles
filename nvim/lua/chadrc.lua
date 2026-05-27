@@ -6,7 +6,7 @@
 local M = {}
 
 M.base46 = {
-  theme = "palenight",
+  theme = "tokyodark",
 
   -- hl_override = {
   -- 	Comment = { italic = true },
@@ -16,9 +16,16 @@ M.base46 = {
 
 M.ui = {
   telescope = { stype = "bordered" },
+  tabufline = {
+    order = { "treeOffset", "buffers", "tabs" },
+    modules = {},
+  },
   statusline = {
-    theme = "minimal",
-    separator_style = "default",
+    enabled = true,
+    theme = "default", -- default/vscode/vscode_colored/minimal
+    -- default/round/block/arrow separators work only for default statusline theme
+    -- round and block will work for minimal theme only
+    separator_style = "arrow",
     order = {
       "mode",
       "file",
@@ -26,32 +33,44 @@ M.ui = {
       "%=",
       "lsp_msg",
       "%=",
+      "ff_info",
+      "bom_info",
       "diagnostics",
-      "encoding",
       "lsp",
-      "cursor",
       "cwd",
-      "xyz",
-      "abc",
+      "cursor",
     },
     modules = {
-      abc = function()
+      ff_info = function()
+        local ff = vim.bo.fileformat or ""
+
+        if ff ~= "" then
+          -- FF 정보만 반환 (띄어쓰기 포함)
+          return string.format(" %s ", ff:upper())
+        end
         return ""
       end,
-      encoding = function()
-        return vim.opt.fileencoding:get()
+
+      -- 2. BOM 유무 모듈
+      bom_info = function()
+        -- BOM이 설정되어 있으면 'BOM'을 반환
+        local bomb = vim.bo.bomb and "BOM" or ""
+
+        if bomb ~= "" then
+          -- 'BOM' 문자열만 반환 (띄어쓰기 포함)
+          return string.format(" %s ", bomb)
+        end
+        return ""
       end,
-      xyz = "",
-      f = "%F",
     },
   },
 }
 
-M.ui = {
-  tabufline = {
-    order = { "treeOffset", "buffers", "tabs" },
-    modules = {},
-  },
-}
+-- M.nvdash = { load_on_startup = true }
+-- M.ui = {
+--       tabufline = {
+--          lazyload = false
+--      }
+-- }
 
 return M

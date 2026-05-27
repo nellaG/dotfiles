@@ -29,19 +29,6 @@ return {
     lazy = false,
   },
   {
-    "hat0uma/csvview.nvim",
-    config = function()
-      require("csvview").setup {
-        view = {
-          display_mode = "border",
-        },
-      }
-    end,
-  },
-  {
-    "edluffy/hologram.nvim",
-  },
-  {
     "nosduco/remote-sshfs.nvim",
   },
   { "akinsho/git-conflict.nvim", version = "*", config = true },
@@ -57,95 +44,10 @@ return {
   },
   {
     "gelguy/wilder.nvim",
+    enabled = false,
     config = function()
       require("wilder").setup()
     end,
-  },
-  {
-    "kawre/leetcode.nvim",
-    build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-      -- "ibhagwan/fzf-lua",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-    },
-    opts = {
-      -- configuration goes here
-    },
-  },
-  {
-    "OXY2DEV/markview.nvim",
-    lazy = false, -- Recommended
-    -- ft = "markdown" -- If you decide to lazy-load anyway
-
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons",
-    },
-  },
-  {
-    "2kabhishek/exercism.nvim",
-    cmd = {
-      "ExercismLanguages",
-      "ExercismList",
-      "ExercismSubmit",
-      "ExercismTest",
-    },
-    keys = {
-      "<leader>exa",
-      "<leader>exl",
-      "<leader>exs",
-      "<leader>ext",
-    },
-    dependencies = {
-      "2kabhishek/utils.nvim", -- required, for utility functions
-      "stevearc/dressing.nvim", -- optional, highly recommended, for fuzzy select UI
-      "2kabhishek/termim.nvim", -- optional, better UX for running tests
-    },
-    -- Add your custom configs here, keep it blank for default configs (required)
-    opts = {},
-  },
-  {
-    "xeluxee/competitest.nvim",
-    dependencies = "MunifTanjim/nui.nvim",
-    config = function()
-      require("competitest").setup()
-    end,
-  },
-  {
-    "abecodes/tabout.nvim",
-    lazy = false,
-    config = function()
-      require("tabout").setup {
-        tabkey = "<Tab>", -- key to trigger tabout, set to an empty string to disable
-        backwards_tabkey = "<S-Tab>", -- key to trigger backwards tabout, set to an empty string to disable
-        act_as_tab = true, -- shift content if tab out is not possible
-        act_as_shift_tab = false, -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
-        default_tab = "<C-t>", -- shift default action (only at the beginning of a line, otherwise <TAB> is used)
-        default_shift_tab = "<C-d>", -- reverse shift default action,
-        enable_backwards = true, -- well ...
-        completion = false, -- if the tabkey is used in a completion pum
-        tabouts = {
-          { open = "'", close = "'" },
-          { open = '"', close = '"' },
-          { open = "`", close = "`" },
-          { open = "(", close = ")" },
-          { open = "[", close = "]" },
-          { open = "{", close = "}" },
-        },
-        ignore_beginning = true, --[[ if the cursor is at the beginning of a filled element it will rather tab out than shift the content ]]
-        exclude = {}, -- tabout will ignore these filetypes
-      }
-    end,
-    dependencies = { -- These are optional
-      "nvim-treesitter/nvim-treesitter",
-      "L3MON4D3/LuaSnip",
-      "hrsh7th/nvim-cmp",
-    },
-    opt = true, -- Set this to true if the plugin is optional
-    event = "InsertCharPre", -- Set the event to 'InsertCharPre' for better compatibility
-    priority = 1000,
   },
   {
     "L3MON4D3/LuaSnip",
@@ -155,21 +57,106 @@ return {
     end,
   },
   {
-    "greggh/claude-code.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim", -- Required for git operations
-    },
+    "toppair/peek.nvim",
+    event = { "VeryLazy" },
+    build = "deno task --quiet build:fast",
     config = function()
-      require("claude-code").setup()
+      require("peek").setup()
+      vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
+      vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
     end,
   },
   {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-    build = "cd app && yarn install",
-    init = function()
-      vim.g.mkdp_filetypes = { "markdown" }
-    end,
-    ft = { "markdown" },
+    "hat0uma/csvview.nvim",
+    ---@module "csvview"
+    ---@type CsvView.Options
+    opts = {
+      parser = { comments = { "#", "//" } },
+      keymaps = {
+        -- Text objects for selecting fields
+        textobject_field_inner = { "if", mode = { "o", "x" } },
+        textobject_field_outer = { "af", mode = { "o", "x" } },
+        -- Excel-like navigation:
+        -- Use <Tab> and <S-Tab> to move horizontally between fields.
+        -- Use <Enter> and <S-Enter> to move vertically between rows and place the cursor at the end of the field.
+        -- Note: In terminals, you may need to enable CSI-u mode to use <S-Tab> and <S-Enter>.
+        jump_next_field_end = { "<Tab>", mode = { "n", "v" } },
+        jump_prev_field_end = { "<S-Tab>", mode = { "n", "v" } },
+        jump_next_row = { "<Enter>", mode = { "n", "v" } },
+        jump_prev_row = { "<S-Enter>", mode = { "n", "v" } },
+      },
+    },
+    cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
+  },
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = true,
+    -- use opts = {} for passing setup options
+    -- this is equivalent to setup({}) function
+  },
+  {
+    "folke/trouble.nvim",
+    enabled = false,
+    cmd = "Trouble",
+    event = "LspAttach",
+    keys = {
+      {
+        "<leader>xx",
+        "<cmd>Trouble diagnostics toggle<cr>",
+        desc = "Diagnostics (Trouble)",
+      },
+      {
+        "<leader>xX",
+        "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+        desc = "Buffer Diagnostics (Trouble)",
+      },
+      {
+        "<leader>cs",
+        "<cmd>Trouble symbols toggle focus=false<cr>",
+        desc = "Symbols (Trouble)",
+      },
+      {
+        "<leader>cl",
+        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+        desc = "LSP Definitions / references / ... (Trouble)",
+      },
+      {
+        "<leader>xL",
+        "<cmd>Trouble loclist toggle<cr>",
+        desc = "Location List (Trouble)",
+      },
+      {
+        "<leader>xQ",
+        "<cmd>Trouble qflist toggle<cr>",
+        desc = "Quickfix List (Trouble)",
+      },
+    },
+  },
+  {
+    "pteroctopus/faster.nvim",
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    event = "BufReadPost",
+    opts = {
+      suggestion = {
+        enabled = not vim.g.ai_cmp,
+        auto_trigger = true,
+        hide_during_completion = vim.g.ai_cmp,
+        keymap = {
+          accept = "<C-l>",
+          next = "<M-]>",
+          prev = "<M-[>",
+        },
+      },
+      panel = { enabled = false },
+      filetypes = {
+        markdown = true,
+        help = true,
+      },
+    },
   },
 }
