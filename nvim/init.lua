@@ -247,6 +247,10 @@ require("nvim-tree").setup {
 }
 
 require("faster").setup()
+vim.diagnostic.config {
+  virtual_text = true,
+  severity_sort = true,
+}
 
 hooks.register(hooks.type.SCOPE_HIGHLIGHT, hooks.builtin.scope_highlight_from_extmark)
 -- custom config end
@@ -261,7 +265,7 @@ local function quit_log(msg)
 end
 
 -- Trace the early shutdown stages so we can see where time goes before VimLeavePre.
-for _, ev in ipairs({ "QuitPre", "ExitPre", "BufWinLeave", "BufLeave", "BufUnload", "BufWipeout" }) do
+for _, ev in ipairs { "QuitPre", "ExitPre", "BufWinLeave", "BufLeave", "BufUnload", "BufWipeout" } do
   vim.api.nvim_create_autocmd(ev, {
     callback = function(args)
       quit_log(string.format("%s buf=%s name=%s", ev, tostring(args.buf), args.file or ""))
@@ -275,17 +279,19 @@ end
 vim.api.nvim_create_autocmd("ExitPre", {
   callback = function()
     local t0 = vim.uv.hrtime()
-    local function dt() return (vim.uv.hrtime() - t0) / 1e6 end
-    quit_log("ExitPre: tearing down LSP")
+    local function dt()
+      return (vim.uv.hrtime() - t0) / 1e6
+    end
+    quit_log "ExitPre: tearing down LSP"
 
     -- 1) SIGKILL all child processes FIRST. Once the LSP server is dead, its
     --    rpc pipes hit EOF and Neovim treats the client as exited.
     local self_pid = vim.fn.getpid()
     local pgrep = io.popen("pgrep -P " .. self_pid .. " 2>/dev/null")
     if pgrep then
-      local out = pgrep:read("*a") or ""
+      local out = pgrep:read "*a" or ""
       pgrep:close()
-      for line in out:gmatch("[^\r\n]+") do
+      for line in out:gmatch "[^\r\n]+" do
         local cpid = tonumber(line)
         if cpid then
           pcall(vim.uv.kill, cpid, 9)
@@ -308,7 +314,9 @@ vim.api.nvim_create_autocmd("ExitPre", {
       -- pretend no buffers are attached, so BufUnload skips the detach work
       client.attached_buffers = {}
       -- override is_stopped so any downstream code thinks it's done
-      client.is_stopped = function() return true end
+      client.is_stopped = function()
+        return true
+      end
     end
     quit_log(string.format("ExitPre: done (+%.0fms)", dt()))
   end,
@@ -317,26 +325,32 @@ vim.api.nvim_create_autocmd("ExitPre", {
 vim.api.nvim_create_autocmd("VimLeavePre", {
   callback = function()
     local t0 = vim.uv.hrtime()
-    local function dt() return (vim.uv.hrtime() - t0) / 1e6 end
-    quit_log("=== VimLeavePre start ===")
+    local function dt()
+      return (vim.uv.hrtime() - t0) / 1e6
+    end
+    quit_log "=== VimLeavePre start ==="
 
     -- belt-and-suspenders: kill any lingering LSP/job children that escaped
     -- the ExitPre teardown (e.g., paths that don't fire ExitPre)
     local self_pid = vim.fn.getpid()
     local pgrep = io.popen("pgrep -P " .. self_pid .. " 2>/dev/null")
     if pgrep then
-      local out = pgrep:read("*a") or ""
+      local out = pgrep:read "*a" or ""
       pgrep:close()
-      for line in out:gmatch("[^\r\n]+") do
+      for line in out:gmatch "[^\r\n]+" do
         local cpid = tonumber(line)
-        if cpid then pcall(vim.uv.kill, cpid, 9) end
+        if cpid then
+          pcall(vim.uv.kill, cpid, 9)
+        end
       end
     end
 
     -- Persist shada explicitly so we keep jumplist, marks, registers, and
     -- search/command history across sessions. Normally Neovim writes shada
     -- AFTER VimLeavePre and BEFORE VimLeave — but we're about to skip that.
-    pcall(function() vim.cmd("wshada!") end)
+    pcall(function()
+      vim.cmd "wshada!"
+    end)
     quit_log(string.format("  wshada done (+%.0fms)", dt()))
 
     -- Fast-exit: bypass the rest of Neovim's shutdown sequence (other plugins'
@@ -352,7 +366,7 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
 -- Fallback only — unreachable if VimLeavePre os.exit fires as expected.
 vim.api.nvim_create_autocmd("VimLeave", {
   callback = function()
-    quit_log("=== VimLeave fired (fallback path) ===")
+    quit_log "=== VimLeave fired (fallback path) ==="
     os.exit(0)
   end,
 })
