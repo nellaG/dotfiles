@@ -9,9 +9,8 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
     config = function()
-      require("go").setup()
+      require("go").setup { lsp_cfg = false }
     end,
-    event = { "CmdlineEnter" },
     ft = { "go", "gomod" },
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
@@ -22,16 +21,42 @@ return {
         auto_save = nil,
       }
     end,
-    lazy = false,
+    event = "VeryLazy",
   },
   {
     "HiPhish/rainbow-delimiters.nvim",
-    lazy = false,
+    event = "VeryLazy",
   },
   {
     "nosduco/remote-sshfs.nvim",
+    cmd = {
+      "RemoteSSHFSConnect",
+      "RemoteSSHFSDisconnect",
+      "RemoteSSHFSEdit",
+      "RemoteSSHFSReload",
+      "RemoteSSHFSFindFiles",
+      "RemoteSSHFSLiveGrep",
+    },
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+    config = function()
+      require("remote-sshfs").setup {}
+      require("telescope").load_extension "remote-sshfs"
+    end,
   },
-  { "akinsho/git-conflict.nvim", version = "*", config = true },
+  {
+    "akinsho/git-conflict.nvim",
+    cmd = {
+      "GitConflictListQf",
+      "GitConflictChooseOurs",
+      "GitConflictChooseTheirs",
+      "GitConflictChooseBoth",
+      "GitConflictChooseNone",
+      "GitConflictNextConflict",
+      "GitConflictPrevConflict",
+    },
+    version = "*",
+    config = true,
+  },
   {
     "topaxi/pipeline.nvim",
     keys = {
@@ -58,10 +83,16 @@ return {
   },
   {
     "toppair/peek.nvim",
-    event = { "VeryLazy" },
+    cmd = { "PeekOpen", "PeekClose" },
     build = "deno task --quiet build:fast",
     config = function()
-      require("peek").setup()
+      require("peek").setup {
+        syntax = true,
+        theme = "dark",
+        update_on_change = true,
+        app = "browser",
+        filetype = { "markdown" },
+      }
       vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
       vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
     end,
@@ -91,9 +122,7 @@ return {
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
-    config = true,
-    -- use opts = {} for passing setup options
-    -- this is equivalent to setup({}) function
+    -- Keep NvChad's config callback, including completion integration.
   },
   {
     "folke/trouble.nvim",
@@ -135,16 +164,18 @@ return {
   },
   {
     "pteroctopus/faster.nvim",
+    event = "BufReadPre",
+    opts = {},
   },
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
-    build = ":Copilot auth",
-    event = "BufReadPost",
+    event = "InsertEnter",
     opts = {
       suggestion = {
         enabled = not vim.g.ai_cmp,
         auto_trigger = true,
+        debounce = 75,
         hide_during_completion = vim.g.ai_cmp,
         keymap = {
           accept = "<C-l>",

@@ -35,5 +35,4 @@ map("n", "<C-l>", "<CMD>NavigatorRight<CR>")
 map("n", "<C-k>", "<CMD>NavigatorUp<CR>")
 map("n", "<C-j>", "<CMD>NavigatorDown<CR>")
 
--- go to definition
-vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+-- LSP buffer mappings are installed by NvChad on LspAttach.

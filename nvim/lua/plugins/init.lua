@@ -1,28 +1,37 @@
 return {
   {
     "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
-    opts = require "configs.conform",
-  },
-
-  -- These are some examples, uncomment them if you want to see them work!
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
-      require "configs.lspconfig"
+    event = "BufWritePre",
+    cmd = "ConformInfo",
+    opts = function()
+      return require "configs.conform"
     end,
   },
-
-  -- test new blink
-  -- { import = "nvchad.blink.lazyspec" },
-
-  -- {
-  -- 	"nvim-treesitter/nvim-treesitter",
-  -- 	opts = {
-  -- 		ensure_installed = {
-  -- 			"vim", "lua", "vimdoc",
-  --      "html", "css"
-  -- 		},
-  -- 	},
-  -- },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    -- NvChad v2.5 uses the legacy configs API; keep its compatible branch.
+    branch = "master",
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts, require "configs.treesitter")
+    end,
+  },
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = function()
+      return require "configs.gitsigns"
+    end,
+  },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts, require "configs.ibl")
+    end,
+  },
+  {
+    "nvim-tree/nvim-tree.lua",
+    opts = {
+      filters = { dotfiles = false, git_ignored = false },
+      filesystem_watchers = { enable = vim.uv.os_uname().sysname ~= "Darwin" },
+    },
+  },
 }

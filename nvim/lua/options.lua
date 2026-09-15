@@ -1,6 +1,8 @@
 require "nvchad.options"
 
--- add yours here!
-local opt = vim.opt
-local o = vim.o
--- o.cursorlineopt ='both' -- to enable cursorline!
+vim.opt.whichwrap:remove { "<", ">" }
+vim.opt.colorcolumn = { "100", "120" }
+vim.opt.fileformats = { "unix" }
+vim.opt.bomb = false
+
+vim.diagnostic.config { virtual_text = true, severity_sort = true }

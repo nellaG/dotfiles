@@ -1,4 +1,4 @@
-local options = {
+return {
   formatters_by_ft = {
     lua = { "stylua" },
     python = { "ruff_format", "ruff_organize_imports" },
@@ -12,11 +12,11 @@ local options = {
     markdown = { "prettier" },
   },
 
+  formatters = { rustfmt = { options = { default_edition = "2024" } } },
+
   format_on_save = {
     -- These options will be passed to conform.format()
     timeout_ms = 500,
-    lsp_fallback = true,
+    lsp_format = "never",
   },
 }
-
-require("conform").setup(options)
